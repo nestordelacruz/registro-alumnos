@@ -5,9 +5,78 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #ECE9E4;
+
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.App{
+  background-color: #ECE9E4;
+}
+
+.login-form{
+  color: white;
+  background-color: #13161B;
+  border-radius: 50px;
+  margin: auto;
+  position: relative;
+  width: 35%;
+  height: 50%; 
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-page{
+  margin: 0 auto;
+  
+}
+
+.log-user{
+  width: 80%;
+  height: 100%;
+  margin: 1px;
+  padding: 1px;
+
+}
+
+input[type=text] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: 2px solid;
+  border-radius: 25px;
+}
+
+button {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: 2px solid;
+  border-radius: 25px;
+}
+
+.logo-div{
+  position: relative;
+  padding-bottom: 1%;
+  padding-top: 1%;
+}
+
+.logo-pic{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 15%;
+  height: 15%;
+  border-radius: 15%;
+  border: 1px solid #13161B;
+  overflow: hidden;
 }
