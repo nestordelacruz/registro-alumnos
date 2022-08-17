@@ -1,20 +1,23 @@
 import React, {useState} from 'react';
 import Logo from './Logo';
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function LogIn(props) {
     let navigate = useNavigate();
     const [pass, setPass] = useState('')
     const [user, setUser] = useState('')
-    
-    function s(){
-        // llamada a API
-        <Link to="/login" className="btn">Log Out</Link>
+    const [isLogged, setIsLogged] = useState(false)
+
+    async function canProcede(){
+        let path = '/home';
+        await handleIsLogged()
+        navigate(path, {state: {
+            isLogged : true
+        }})
     }
 
-    function canProcede(){
-        let path = '/login';
-        navigate(path)
+    function handleIsLogged(){
+        setIsLogged(true)
     }
 
     function handleUser(event){
@@ -25,11 +28,13 @@ function LogIn(props) {
         setPass(event.target.value)
     }
 
+    /*
     function handleKeyDown(textAreaRef){
         textAreaRef.style.height = "0px";
         const scrollHeight = textAreaRef.scrollHeight;
         textAreaRef.style.height = scrollHeight + "px";
     }
+    */
 
     return (
         <div className='App'>
@@ -38,7 +43,7 @@ function LogIn(props) {
                 
                 <div className="login-form">
                     <div className='log-user'>
-                        <p>Matricula</p>
+                        <p>{isLogged}</p>
                         <input type="text" value={user} onChange={handleUser}/>
                     </div>
                     <div className='log-user'>
