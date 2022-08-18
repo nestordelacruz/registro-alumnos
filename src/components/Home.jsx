@@ -23,7 +23,11 @@ function Home(props) {
   const [showText, setShowText] = useState(true);
 
   const {getRootProps, getInputProps, isDragActive} = useDropzone({
-    accept: "image/*",
+    accept: {
+      'image/png': ['.png'],
+      'image/jpeg': ['.jpeg'],
+      'image/jpg' : ['.jpg']
+    },
     onDrop: (acceptedFiles) => {
       setFiles(
         acceptedFiles.map((file) => Object.assign(file, {
@@ -31,7 +35,7 @@ function Home(props) {
         }))
       )
 
-      //hide divs and p within
+      //hide divs and p within  
       setShowText(false);
     }
 
