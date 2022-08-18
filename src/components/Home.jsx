@@ -10,7 +10,7 @@ function Home(props) {
   console.log(location); 
 
   const [buttonPopup, setButtonPopup] = useState(false);
-
+  
   useEffect(() => {
     if (location.state===null ||  
       location.state.isLogged === false){
@@ -18,10 +18,32 @@ function Home(props) {
     }
   });
 
-  const onDrop = useCallback(acceptedFiles => {
-    // Do something with the files
-  }, [])
-  const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
+  const [files, setFiles] = useState([]);
+
+  const [showText, setShowText] = useState(true);
+
+  const {getRootProps, getInputProps, isDragActive} = useDropzone({
+    accept: "image/*",
+    onDrop: (acceptedFiles) => {
+      setFiles(
+        acceptedFiles.map((file) => Object.assign(file, {
+          preview: URL.createObjectURL(file)
+        }))
+      )
+
+      //hide divs and p within
+      setShowText(false);
+    }
+
+  })
+
+  const images = files.map((file) => (
+    <div key={file.name}>
+      <div>
+        <img className="file-Image" src={file.preview} alt="preview"/>
+      </div>
+    </div>
+  ))
 
   return (
     <div>
@@ -33,16 +55,21 @@ function Home(props) {
           <h3>Popup</h3>
           <p>In here add dragable space to upload files</p>
           <p>In here add button : "Subir archivo"</p>
-          <div className='dnd-box'>
-            <div className='dnd-upload-bound' {...getRootProps()}>
-              <input {...getInputProps()} />
-              {
-                isDragActive ?
-                  <p>Drop the files here ...</p> :
-                  <p>Drag 'n' drop some files here, or click to select files</p>
-              }
-            </div>
+
+          <div className='dnd-upload-bound' {...getRootProps()}>
+            
+     
+            <input {...getInputProps()} /> 
+            {showText ? 
+              isDragActive ?
+                <p>Drop the files here ...</p> :
+                <p>Drag 'n' drop some files here, or click to select files</p>
+            : null}
+            
+            <div>{images}</div>
           </div>
+          
+          
         </Popup>
       </div>
     </div>
