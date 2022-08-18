@@ -80,3 +80,56 @@ button {
   border: 1px solid #13161B;
   overflow: hidden;
 }
+
+.home-page {
+  margin: 0 auto;
+}
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.2);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.popup-inner{
+  position: relative;
+  padding: 32px;
+  width: 60%;
+  height: 80%;
+  background-color: #FFF; 
+}
+
+.close-btn {
+  width: 5%;
+  height: 5%;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+.popup-inner .close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+}
+
+.dnd-upload-bound {
+  position: fixed;
+  width: 60%;
+  height: 60%;
+  background-color: aliceblue;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+
+
