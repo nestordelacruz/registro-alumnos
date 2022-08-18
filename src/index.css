@@ -131,5 +131,12 @@ button {
   display: flex;
 }
 
-
+.file-Image{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
 
