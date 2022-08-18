@@ -29,14 +29,18 @@ function Home(props) {
       'image/jpg' : ['.jpg']
     },
     onDrop: (acceptedFiles) => {
-      setFiles(
-        acceptedFiles.map((file) => Object.assign(file, {
-          preview: URL.createObjectURL(file)
-        }))
-      )
+      
+      if (acceptedFiles.length === 1) {
+        setFiles(
+          acceptedFiles.map((file) => Object.assign(file, {
+            preview: URL.createObjectURL(file)
+          }))
+        )
 
-      //hide divs and p within  
-      setShowText(false);
+        //hide divs and p within  
+        setShowText(false);
+      }
+
     }
 
   })
