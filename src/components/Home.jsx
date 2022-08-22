@@ -2,7 +2,7 @@ import React, {useEffect, useState, useCallback} from 'react';
 import { useNavigate, useLocation } from "react-router-dom";
 import Popup from './IdPopup';
 import {useDropzone} from 'react-dropzone';
-
+import UserRegistrationStatus from './UserRegistrationStatus';
   // Variables para seleccion de tipo de identificacion
 
 function Home(props) {
@@ -14,6 +14,7 @@ function Home(props) {
 
   const [buttonPopup, setButtonPopup] = useState(false);
   const [idType, setIdType] = useState('')
+  const [isRegistered, setIsRegistered] = useState(false);
   
   const availableIDTypes = {"ine": "INE", "pasaporte-mexicano": "Pasaporte Mexicano", "passport-book": "Passport Book (USA)",
     "passport-card" : "Passport Card (USA)", "extranjero": "Extranjero (Pasaporte)"};
@@ -34,10 +35,13 @@ function Home(props) {
   function idTypeChange(idType) {
     setIdType(idType);
   }
+
   return (
     <div>
       <h1>Hola, X</h1>  
+      <UserRegistrationStatus userStatus={isRegistered}></UserRegistrationStatus>
       <h2>Selecciona tu tipo de identificacion: </h2>  
+
       <div className='home-page'>
 
         <button className="id-type-box" id="btn-ine" onClick={() => {setButtonPopup(true); idTypeChange("ine")}}>INE</button>
