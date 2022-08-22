@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import Popup from './IdPopup';
 import {useDropzone} from 'react-dropzone';
 import UserRegistrationStatus from './UserRegistrationStatus';
+import ExpiredIDPopup from './ExpiredIDPopup';
   // Variables para seleccion de tipo de identificacion
 
 function Home(props) {
@@ -15,6 +16,7 @@ function Home(props) {
   const [buttonPopup, setButtonPopup] = useState(false);
   const [idType, setIdType] = useState('')
   const [isRegistered, setIsRegistered] = useState(false);
+  const [expiredPopup, setExpiredPopup] = useState(false);
   
   const availableIDTypes = {"ine": "INE", "pasaporte-mexicano": "Pasaporte Mexicano", "passport-book": "Passport Book (USA)",
     "passport-card" : "Passport Card (USA)", "extranjero": "Extranjero (Pasaporte)"};
@@ -80,6 +82,9 @@ function Home(props) {
         <button className="id-type-box" id="btn-passport-book" onClick={() => {setButtonPopup(true); idTypeChange("passport-book")}}>Passport Book (USA)</button>
         <button className="id-type-box" id="btn-passport-card" onClick={() => {setButtonPopup(true); idTypeChange("passport-card")}}>Passport Card (USA) </button>
         <button className="id-type-box" id="btn-extranjero" onClick={() => {setButtonPopup(true); idTypeChange("extranjero")}}>Extranjero (pasaporte)</button>
+        {/*<ExpiredIDPopup trigger={expiredPopup} setTrigger={setExpiredPopup}>
+          La identificación ingresada está expirada. Favor de ingresar una identificación valida. 
+        </ExpiredIDPopup> */}
         <Popup trigger={buttonPopup} setTrigger={setButtonPopup}>
           <p>{idType}</p>
           <p>In here add dragable space to upload files</p>
