@@ -2,15 +2,27 @@ import React, {useEffect, useState, useCallback} from 'react';
 import { useNavigate, useLocation } from "react-router-dom";
 import Popup from './IdPopup';
 import {useDropzone} from 'react-dropzone';
+import UserRegistrationStatus from './UserRegistrationStatus';
+import ExpiredIDPopup from './ExpiredIDPopup';
+  // Variables para seleccion de tipo de identificacion
 
 function Home(props) {
+
 
   let navigate = useNavigate();
   const location = useLocation();
   console.log(location); 
 
   const [buttonPopup, setButtonPopup] = useState(false);
+  const [idType, setIdType] = useState('')
+  const [isRegistered, setIsRegistered] = useState(false);
+  const [expiredPopup, setExpiredPopup] = useState(false);
   
+  const availableIDTypes = {"ine": "INE", "pasaporte-mexicano": "Pasaporte Mexicano", "passport-book": "Passport Book (USA)",
+    "passport-card" : "Passport Card (USA)", "extranjero": "Extranjero (Pasaporte)"};
+
+
+
   useEffect(() => {
     if (location.state===null ||  
       location.state.isLogged === false){
@@ -53,14 +65,28 @@ function Home(props) {
     </div>
   ))
 
+  function idTypeChange(idType) {
+    setIdType(idType);
+  }
+
   return (
     <div>
-      <h1>This is the home page</h1>
+      <h1>Hola, X</h1>  
+      <UserRegistrationStatus userStatus={isRegistered}></UserRegistrationStatus>
+      <h2>Selecciona tu tipo de identificacion: </h2>  
+
       <div className='home-page'>
 
-        <button className="id-type-box" onClick={() => setButtonPopup(true)}> temporal</button>
+        <button className="id-type-box" id="btn-ine" onClick={() => {setButtonPopup(true); idTypeChange("ine")}}>INE</button>
+        <button className="id-type-box" id="btn-pasaporte-mexicano" onClick={() => {setButtonPopup(true); idTypeChange("pasaporte-mexicano")}}>Pasaporte Mexicano</button>
+        <button className="id-type-box" id="btn-passport-book" onClick={() => {setButtonPopup(true); idTypeChange("passport-book")}}>Passport Book (USA)</button>
+        <button className="id-type-box" id="btn-passport-card" onClick={() => {setButtonPopup(true); idTypeChange("passport-card")}}>Passport Card (USA) </button>
+        <button className="id-type-box" id="btn-extranjero" onClick={() => {setButtonPopup(true); idTypeChange("extranjero")}}>Extranjero (pasaporte)</button>
+        {/*<ExpiredIDPopup trigger={expiredPopup} setTrigger={setExpiredPopup}>
+          La identificación ingresada está expirada. Favor de ingresar una identificación valida. 
+        </ExpiredIDPopup> */}
         <Popup trigger={buttonPopup} setTrigger={setButtonPopup}>
-          <h3>Popup</h3>
+          <p>{idType}</p>
           <p>In here add dragable space to upload files</p>
           <p>In here add button : "Subir archivo"</p>
 
@@ -85,5 +111,6 @@ function Home(props) {
   
   
 }
+
 
 export default Home;

@@ -107,6 +107,28 @@ button {
   background-color: #FFF; 
 }
 
+.expired-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.2);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.expired-popup-inner{
+  position: relative;
+  padding: 32px;
+  width: 15%;
+  height: 20%;
+  background-color: #FFF; 
+}
+
 .close-btn {
   width: 5%;
   height: 5%;
@@ -116,6 +138,12 @@ button {
 }
 
 .popup-inner .close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+}
+
+.expired-popup-inner .close-btn {
   position: absolute;
   top: 16px;
   right: 16px;
