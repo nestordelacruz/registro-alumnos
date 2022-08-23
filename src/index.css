@@ -158,21 +158,11 @@ button {
 .dnd-upload-bound {
   position: relative;
   width: 100%;
-  height: 65%;
+  height: 70%;
   background-color: aliceblue;
   justify-content: center;
   align-items: center;
   display: flex;
-}
-
-
-.empty-div-continue {
-  position: relative;
-  padding-top: 25px;
-  width: 100%;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
 }
 
 .btn-continue {
@@ -184,7 +174,6 @@ button {
   position: relative;
   justify-content: center;
   align-items: center;
-  display: flex;
 }
 
 .empty-div-continue {
@@ -196,14 +185,13 @@ button {
   align-items: center;
 }
 
-.btn-continue {
+.file-image {
+  max-width: 100%;
+  max-height: 450px;
   width: 100%;
-  height: 10%;
-  border-radius: 10px;
-  border-width: 1px;
-  margin: auto;
-  position: relative;
-  justify-content: center;
-  align-items: center;
-  display: flex;
+  height: auto;
 }
+
+
+
+
