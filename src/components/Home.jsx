@@ -86,7 +86,7 @@ function Home(props) {
           La identificación ingresada está expirada. Favor de ingresar una identificación valida. 
         </ExpiredIDPopup> */}
         <Popup trigger={buttonPopup} setTrigger={setButtonPopup}>
-          <p>{idType}</p>
+          <p className="title">{idType}</p>
           <p>In here add dragable space to upload files</p>
           <p>In here add button : "Subir archivo"</p>
 
@@ -103,6 +103,9 @@ function Home(props) {
             <div>{images}</div>
           </div>
           
+          <div className='empty-div-continue'>
+            <button className='btn-continue'>Continuar</button>  
+          </div>
           
         </Popup>
       </div>
