@@ -87,6 +87,7 @@ button {
 
 .popup {
   position: fixed;
+  font-size: larger;
   top: 0;
   left: 0;
   width: 100%;
@@ -98,6 +99,11 @@ button {
   align-items: center;
 }
 
+.title {
+  text-align: center;
+  font-size: x-large;
+  font-weight: bolder;
+}
 
 .popup-inner{
   position: relative;
@@ -150,21 +156,42 @@ button {
 }
 
 .dnd-upload-bound {
-  position: fixed;
-  width: 60%;
-  height: 60%;
+  position: relative;
+  width: 100%;
+  height: 70%;
   background-color: aliceblue;
   justify-content: center;
   align-items: center;
   display: flex;
 }
 
-.file-Image{
+.btn-continue {
+  width: 100%;
+  height: 10%;
+  border-radius: 10px;
+  border-width: 1px;
+  margin: auto;
   position: relative;
+  justify-content: center;
+  align-items: center;
+}
+
+.empty-div-continue {
+  position: relative;
+  padding-top: 15px;
   width: 100%;
   height: 100%;
   justify-content: center;
   align-items: center;
-  display: flex;
 }
+
+.file-image {
+  max-width: 100%;
+  max-height: 450px;
+  width: 100%;
+  height: auto;
+}
+
+
+
 
