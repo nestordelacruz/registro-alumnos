@@ -57,11 +57,10 @@ function Home(props) {
 
   })
 
-
   const images = files.map((file) => (
     <div key={file.name}>
       <div>
-        <img className="file-image" src={file.preview} alt="preview"/>
+        <img className="file-Image" src={file.preview} alt="preview"/>
       </div>
     </div>
   ))
@@ -87,8 +86,9 @@ function Home(props) {
           La identificación ingresada está expirada. Favor de ingresar una identificación valida. 
         </ExpiredIDPopup> */}
         <Popup trigger={buttonPopup} setTrigger={setButtonPopup}>
-          <p className="title">{idType}</p>
+          <p>{idType}</p>
           <p>In here add dragable space to upload files</p>
+          <p>In here add button : "Subir archivo"</p>
 
           <div className='dnd-upload-bound' {...getRootProps()}>
             
@@ -98,13 +98,11 @@ function Home(props) {
               isDragActive ?
                 <p>Drop the files here ...</p> :
                 <p>Drag 'n' drop some files here, or click to select files</p>
-            : <div>{images}</div>}
+            : null}
             
+            <div>{images}</div>
           </div>
           
-          <div className='empty-div-continue'>
-            <button className='btn-continue'>Continuar</button>  
-          </div>
           
         </Popup>
       </div>
