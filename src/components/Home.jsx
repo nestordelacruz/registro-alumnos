@@ -46,7 +46,7 @@ function Home(props) {
   const images = files.map((file) => (
     <div key={file.name}>
       <div>
-        <img className="file-Image" src={file.preview} alt="preview"/>
+        <img className="file-image" src={file.preview} alt="preview"/>
       </div>
     </div>
   ))
