@@ -16,19 +16,6 @@ function Home(props) {
   const [buttonPopup, setButtonPopup] = useState(false);
   const [idType, setIdType] = useState('')
   const [isRegistered, setIsRegistered] = useState(false);
-  const [expiredPopup, setExpiredPopup] = useState(false);
-  
-  const availableIDTypes = {"ine": "INE", "pasaporte-mexicano": "Pasaporte Mexicano", "passport-book": "Passport Book (USA)",
-    "passport-card" : "Passport Card (USA)", "extranjero": "Extranjero (Pasaporte)"};
-
-
-
-  useEffect(() => {
-    if (location.state===null ||  
-      location.state.isLogged === false){
-      return navigate('/')
-    }
-  });
 
   const [files, setFiles] = useState([]);
 
@@ -60,7 +47,7 @@ function Home(props) {
   const images = files.map((file) => (
     <div key={file.name}>
       <div>
-        <img className="file-Image" src={file.preview} alt="preview"/>
+        <img className="file-image" src={file.preview} alt="preview"/>
       </div>
     </div>
   ))
@@ -68,6 +55,18 @@ function Home(props) {
   function idTypeChange(idType) {
     setIdType(idType);
   }
+  
+  useEffect(() => {
+    if (location.state===null ||  
+      location.state.isLogged === false){
+      return navigate('/')
+    }
+    if (buttonPopup===false){
+      setFiles([])
+      setShowText(true)
+      setIdType('')
+    }
+  }, [buttonPopup]);
 
   return (
     <div>
@@ -86,30 +85,30 @@ function Home(props) {
           La identificación ingresada está expirada. Favor de ingresar una identificación valida. 
         </ExpiredIDPopup> */}
         <Popup trigger={buttonPopup} setTrigger={setButtonPopup}>
-          <p>{idType}</p>
-          <p>In here add dragable space to upload files</p>
-          <p>In here add button : "Subir archivo"</p>
+
+    
+          <div className='title'>
+            <p>{idType}</p>
+          </div>
 
           <div className='dnd-upload-bound' {...getRootProps()}>
-            
-     
             <input {...getInputProps()} /> 
             {showText ? 
               isDragActive ?
                 <p>Drop the files here ...</p> :
                 <p>Drag 'n' drop some files here, or click to select files</p>
-            : null}
-            
-            <div>{images}</div>
+                : <div>{buttonPopup === true &&  images}</div>}
+
           </div>
-          
+
+            <div className='empty-div-continue'>
+              <button className='btn-continue'>Continuar</button>  
+            </div>
           
         </Popup>
       </div>
     </div>
-  );
-  
-  
+  );  
 }
 
 
