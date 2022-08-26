@@ -43,7 +43,7 @@ function LogIn(props) {
                 
                 <div className="login-form">
                     <div className='log-user'>
-                        <p>Usuario</p>
+                        <p>{isLogged}</p>
                         <input type="text" value={user} onChange={handleUser}/>
                     </div>
                     <div className='log-user'>
