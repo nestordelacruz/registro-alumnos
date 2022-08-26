@@ -107,6 +107,7 @@ function Home(props) {
             <button className='btn-continue'>Continuar</button>  
           </div>
           
+          
         </Popup>
       </div>
     </div>
