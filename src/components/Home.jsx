@@ -17,14 +17,9 @@ function Home(props) {
   const [idType, setIdType] = useState('')
   const [isRegistered, setIsRegistered] = useState(false);
   const [expiredPopup, setExpiredPopup] = useState(false);
-
-
-  useEffect(() => {
-    if (location.state===null ||  
-      location.state.isLogged === false){
-      return navigate('/')
-    }
-  });
+  
+  const availableIDTypes = {"ine": "INE", "pasaporte-mexicano": "Pasaporte Mexicano", "passport-book": "Passport Book (USA)",
+    "passport-card" : "Passport Card (USA)", "extranjero": "Extranjero (Pasaporte)"};
 
   const [files, setFiles] = useState([]);
 
@@ -53,11 +48,10 @@ function Home(props) {
 
   })
 
-
   const images = files.map((file) => (
     <div key={file.name}>
       <div>
-        <img className="file-image" src={file.preview} alt="preview"/>
+        <img className="file-Image" src={file.preview} alt="preview"/>
       </div>
     </div>
   ))
@@ -65,6 +59,18 @@ function Home(props) {
   function idTypeChange(idType) {
     setIdType(idType);
   }
+
+  useEffect(() => {
+    if (location.state===null ||  
+      location.state.isLogged === false){
+      return navigate('/')
+    }
+    if (buttonPopup===false){
+      setFiles([])
+    }
+  }, [buttonPopup]);
+
+  
 
   return (
     <div>
@@ -74,19 +80,18 @@ function Home(props) {
 
       <div className='home-page'>
 
-        <button className="id-type-box" id="btn-ine" onClick={() => {setButtonPopup(true); idTypeChange("INE")}}>INE</button>
-        <button className="id-type-box" id="btn-pasaporte-mexicano" onClick={() => {setButtonPopup(true); idTypeChange("Pasaporte-Mexicano")}}>Pasaporte Mexicano</button>
-        <button className="id-type-box" id="btn-passport-book" onClick={() => {setButtonPopup(true); idTypeChange("Passport-Book")}}>Passport Book (USA)</button>
-        <button className="id-type-box" id="btn-passport-card" onClick={() => {setButtonPopup(true); idTypeChange("Passport-Card")}}>Passport Card (USA) </button>
-        <button className="id-type-box" id="btn-extranjero" onClick={() => {setButtonPopup(true); idTypeChange("Extranjero")}}>Extranjero (pasaporte)</button>
+        <button className="id-type-box" id="btn-ine" onClick={() => {setButtonPopup(true); idTypeChange("ine")}}>INE</button>
+        <button className="id-type-box" id="btn-pasaporte-mexicano" onClick={() => {setButtonPopup(true); idTypeChange("pasaporte-mexicano")}}>Pasaporte Mexicano</button>
+        <button className="id-type-box" id="btn-passport-book" onClick={() => {setButtonPopup(true); idTypeChange("passport-book")}}>Passport Book (USA)</button>
+        <button className="id-type-box" id="btn-passport-card" onClick={() => {setButtonPopup(true); idTypeChange("passport-card")}}>Passport Card (USA) </button>
+        <button className="id-type-box" id="btn-extranjero" onClick={() => {setButtonPopup(true); idTypeChange("extranjero")}}>Extranjero (pasaporte)</button>
         {/*<ExpiredIDPopup trigger={expiredPopup} setTrigger={setExpiredPopup}>
           La identificación ingresada está expirada. Favor de ingresar una identificación valida. 
         </ExpiredIDPopup> */}
         <Popup trigger={buttonPopup} setTrigger={setButtonPopup}>
-    
-          <div className='title'>
-            <p>{idType}</p>
-          </div>
+          <p>{idType}</p>
+          <p>In here add dragable space to upload files</p>
+          <p>In here add button : "Subir archivo"</p>
 
           <div className='dnd-upload-bound' {...getRootProps()}>
             
@@ -96,13 +101,11 @@ function Home(props) {
               isDragActive ?
                 <p>Drop the files here ...</p> :
                 <p>Drag 'n' drop some files here, or click to select files</p>
-            : <div>{images}</div>}
+            : null}
             
+            <div>{buttonPopup === true &&  images}</div>
           </div>
           
-          <div className='empty-div-continue'>
-            <button className='btn-continue'>Continuar</button>  
-          </div>
           
         </Popup>
       </div>
