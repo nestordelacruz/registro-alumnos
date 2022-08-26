@@ -16,7 +16,6 @@ function Home(props) {
   const [buttonPopup, setButtonPopup] = useState(false);
   const [idType, setIdType] = useState('')
   const [isRegistered, setIsRegistered] = useState(false);
-  const [expiredPopup, setExpiredPopup] = useState(false);
   const [files, setFiles] = useState([]);
 
   const [showText, setShowText] = useState(true);
@@ -89,17 +88,13 @@ function Home(props) {
           <div className='title'>
             <p>{idType}</p>
           </div>
-
-
           <div className='dnd-upload-bound' {...getRootProps()}>
-            
-     
             <input {...getInputProps()} /> 
             {showText ? 
               isDragActive ?
                 <p>Drop the files here ...</p> :
                 <p>Drag 'n' drop some files here, or click to select files</p>
-           : <div>{buttonPopup === true &&  images}</div>}
+            : <div>{buttonPopup === true &&  images}</div>}
 
             
             <div className='empty-div-continue'>
@@ -107,14 +102,10 @@ function Home(props) {
             </div>
           </div>
           
-          
-          
         </Popup>
       </div>
     </div>
-  );
-  
-  
+  );  
 }
 
 
