@@ -96,11 +96,11 @@ function Home(props) {
                 <p>Drag 'n' drop some files here, or click to select files</p>
             : <div>{buttonPopup === true &&  images}</div>}
 
+              </div>
             
             <div className='empty-div-continue'>
               <button className='btn-continue'>Continuar</button>  
             </div>
-          </div>
           
         </Popup>
       </div>
