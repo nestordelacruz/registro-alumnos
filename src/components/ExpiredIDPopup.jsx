@@ -1,4 +1,4 @@
-import Reacct from 'react';
+import React from 'react';
 
 export default function ExpiredIDPopup(props){
     return(props.trigger) ? (

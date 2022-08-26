@@ -16,16 +16,17 @@ code {
 
 .App{
   background-color: #ECE9E4;
+  border-color: #13161B;
 }
 
 .login-form{
   color: white;
   background-color: #13161B;
-  border-radius: 50px;
+  border-radius: 15px;
   margin: auto;
   position: relative;
   width: 35%;
-  height: 50%; 
+  height: 60%; 
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -52,7 +53,7 @@ input[type=text] {
   margin: 8px 0;
   box-sizing: border-box;
   border: 2px solid;
-  border-radius: 25px;
+  border-radius: 15px;
 }
 
 button {
@@ -61,7 +62,7 @@ button {
   margin: 8px 0;
   box-sizing: border-box;
   border: 2px solid;
-  border-radius: 25px;
+  border-radius: 15px;
 }
 
 .logo-div{
@@ -202,8 +203,3 @@ button {
   width: 100%;
   height: auto;
 }
-
-
-
-
-
