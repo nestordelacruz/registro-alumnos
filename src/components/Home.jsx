@@ -16,6 +16,7 @@ function Home(props) {
   const [buttonPopup, setButtonPopup] = useState(false);
   const [idType, setIdType] = useState('')
   const [isRegistered, setIsRegistered] = useState(false);
+
   const [files, setFiles] = useState([]);
 
   const [showText, setShowText] = useState(true);
@@ -54,7 +55,7 @@ function Home(props) {
   function idTypeChange(idType) {
     setIdType(idType);
   }
-
+  
   useEffect(() => {
     if (location.state===null ||  
       location.state.isLogged === false){
@@ -75,29 +76,31 @@ function Home(props) {
 
       <div className='home-page'>
 
-        <button className="id-type-box" id="btn-ine" onClick={() => {setButtonPopup(true); idTypeChange("INE")}}>INE</button>
-        <button className="id-type-box" id="btn-pasaporte-mexicano" onClick={() => {setButtonPopup(true); idTypeChange("Pasaporte-Mexicano")}}>Pasaporte Mexicano</button>
-        <button className="id-type-box" id="btn-passport-book" onClick={() => {setButtonPopup(true); idTypeChange("Passport-Book")}}>Passport Book (USA)</button>
-        <button className="id-type-box" id="btn-passport-card" onClick={() => {setButtonPopup(true); idTypeChange("Passport-Card")}}>Passport Card (USA) </button>
-        <button className="id-type-box" id="btn-extranjero" onClick={() => {setButtonPopup(true); idTypeChange("Extranjero")}}>Extranjero (pasaporte)</button>
+        <button className="id-type-box" id="btn-ine" onClick={() => {setButtonPopup(true); idTypeChange("ine")}}>INE</button>
+        <button className="id-type-box" id="btn-pasaporte-mexicano" onClick={() => {setButtonPopup(true); idTypeChange("pasaporte-mexicano")}}>Pasaporte Mexicano</button>
+        <button className="id-type-box" id="btn-passport-book" onClick={() => {setButtonPopup(true); idTypeChange("passport-book")}}>Passport Book (USA)</button>
+        <button className="id-type-box" id="btn-passport-card" onClick={() => {setButtonPopup(true); idTypeChange("passport-card")}}>Passport Card (USA) </button>
+        <button className="id-type-box" id="btn-extranjero" onClick={() => {setButtonPopup(true); idTypeChange("extranjero")}}>Extranjero (pasaporte)</button>
         {/*<ExpiredIDPopup trigger={expiredPopup} setTrigger={setExpiredPopup}>
           La identificación ingresada está expirada. Favor de ingresar una identificación valida. 
         </ExpiredIDPopup> */}
         <Popup trigger={buttonPopup} setTrigger={setButtonPopup}>
+
     
           <div className='title'>
             <p>{idType}</p>
           </div>
+
           <div className='dnd-upload-bound' {...getRootProps()}>
             <input {...getInputProps()} /> 
             {showText ? 
               isDragActive ?
                 <p>Drop the files here ...</p> :
                 <p>Drag 'n' drop some files here, or click to select files</p>
-            : <div>{buttonPopup === true &&  images}</div>}
+                : <div>{buttonPopup === true &&  images}</div>}
 
-              </div>
-            
+          </div>
+
             <div className='empty-div-continue'>
               <button className='btn-continue'>Continuar</button>  
             </div>
