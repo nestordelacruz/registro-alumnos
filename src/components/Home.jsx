@@ -102,7 +102,9 @@ function Home(props) {
            : <div>{buttonPopup === true &&  images}</div>}
 
             
-            <div>{images}</div>
+            <div className='empty-div-continue'>
+              <button className='btn-continue'>Continuar</button>  
+            </div>
           </div>
           
           
