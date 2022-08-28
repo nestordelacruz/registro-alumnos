@@ -20,6 +20,8 @@ function Home(props) {
   const [expiredPopup, setExpiredPopup] = useState(false);
   const [notAPic, setNotAPic] = useState(false);
   const [showText, setShowText] = useState(true);
+  // need to set timeout
+  const [overlayPresent, setOverlayPresent] = useState(false)
 
   const {getRootProps, getInputProps, isDragActive} = useDropzone({
     accept: {
@@ -70,7 +72,11 @@ function Home(props) {
       setShowText(true)
       setIdType('')
     }
-  }, [buttonPopup, location, navigate]);
+    if (overlayPresent===true){
+      setButtonPopup(false);
+      
+    }
+  }, [buttonPopup, location, navigate, overlayPresent]);
 
   return (
     <div>
@@ -89,17 +95,25 @@ function Home(props) {
           La identificación ingresada está expirada. Favor de ingresar una identificación valida. 
         </ExpiredIDPopup> 
         
-        <Popup trigger={buttonPopup} setTrigger={setButtonPopup}>
-
-        <Popup trigger={notAPic} setTrigger={setNotAPic}>
-            <div className="not-a-pic">
-              Formato de archivo invalido, intentalo de nuevo
-            </div>
-            <div className='empty-div-continue'>
-              <button className='btn-continue'>Continuar</button>  
+        <Popup trigger={overlayPresent} setTrigger={setOverlayPresent} botonOn={false}>
+            <div className="div-overlay">
+              <p className="overlay-text">Procesando archivo, por favor espera</p>
+              <img src="https://media1.giphy.com/media/3oEjI6SIIHBdRxXI40/200.gif" alt="funny GIF" className='overlay'/>
+              
             </div>
         </Popup>
-    
+
+        <Popup trigger={buttonPopup} setTrigger={setButtonPopup} botonOn={true}>
+
+          <Popup trigger={notAPic} setTrigger={setNotAPic} botonOn={true}>
+              <div className="not-a-pic">
+                Formato de archivo invalido, intentalo de nuevo
+              </div>
+              <div className='empty-div-continue'>
+                <button className='btn-continue'>Continuar</button>  
+              </div>
+          </Popup>
+      
           <div className='title'>
             <p>{idType}</p>
           </div>
@@ -115,7 +129,7 @@ function Home(props) {
           </div>
 
             <div className='empty-div-continue'>
-              <button className='btn-continue'>Continuar</button>  
+              <button className='btn-continue' onClick={() => setOverlayPresent(true)} >Continuar</button>  
             </div>
           
         </Popup>
