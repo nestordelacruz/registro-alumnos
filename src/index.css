@@ -85,6 +85,8 @@ button {
   margin: 0 auto;
 }
 
+
+
 .popup {
   position: fixed;
   font-size: larger;
@@ -93,7 +95,7 @@ button {
   width: 100%;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.2);
-
+  z-index: 1000 ;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -201,4 +203,18 @@ button {
   max-height: 450px;
   width: 100%;
   height: auto;
+}
+
+.not-a-pic{
+  position: relative;
+  padding: 32px;
+  width: 50%;
+  height: 70%;
+  margin: auto;
+  display: flex;
+  font-weight: bold;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  font-size: 3vh;
 }
