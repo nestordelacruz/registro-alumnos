@@ -21,7 +21,7 @@ code {
 .login-form{
   color: white;
   background-color: #13161B;
-  border-radius: 50px;
+  border-radius: 20px;
   margin: auto;
   position: relative;
   width: 35%;
@@ -52,7 +52,7 @@ input[type=text] {
   margin: 8px 0;
   box-sizing: border-box;
   border: 2px solid;
-  border-radius: 25px;
+  border-radius: 10px;
 }
 
 button {
@@ -61,7 +61,7 @@ button {
   margin: 8px 0;
   box-sizing: border-box;
   border: 2px solid;
-  border-radius: 25px;
+  border-radius: 10px;
 }
 
 .logo-div{
