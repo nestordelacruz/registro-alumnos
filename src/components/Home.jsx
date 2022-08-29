@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useCallback} from 'react';
+import React, {useEffect, useState} from 'react';
 import { useNavigate, useLocation } from "react-router-dom";
 import Popup from './IdPopup';
 import {useDropzone} from 'react-dropzone';
@@ -16,9 +16,9 @@ function Home(props) {
   const [buttonPopup, setButtonPopup] = useState(false);
   const [idType, setIdType] = useState('')
   const [isRegistered, setIsRegistered] = useState(false);
-
   const [files, setFiles] = useState([]);
-
+  const [expiredPopup, setExpiredPopup] = useState(false);
+  const [notAPic, setNotAPic] = useState(false);
   const [showText, setShowText] = useState(true);
 
   const {getRootProps, getInputProps, isDragActive} = useDropzone({
@@ -28,7 +28,6 @@ function Home(props) {
       'image/jpg' : ['.jpg']
     },
     onDrop: (acceptedFiles) => {
-      
       if (acceptedFiles.length === 1) {
         setFiles(
           acceptedFiles.map((file) => Object.assign(file, {
@@ -39,7 +38,11 @@ function Home(props) {
         //hide divs and p within  
         setShowText(false);
       }
-
+      else{
+        setNotAPic(true);
+        // uncomment if idpopup should close after invalid file type
+        //setButtonPopup(false)
+      }
     }
 
   })
@@ -55,7 +58,8 @@ function Home(props) {
   function idTypeChange(idType) {
     setIdType(idType);
   }
-  
+
+
   useEffect(() => {
     if (location.state===null ||  
       location.state.isLogged === false){
@@ -66,7 +70,7 @@ function Home(props) {
       setShowText(true)
       setIdType('')
     }
-  }, [buttonPopup]);
+  }, [buttonPopup, location, navigate]);
 
   return (
     <div>
@@ -76,16 +80,25 @@ function Home(props) {
 
       <div className='home-page'>
 
-        <button className="id-type-box" id="btn-ine" onClick={() => {setButtonPopup(true); idTypeChange("ine")}}>INE</button>
+        <button className="id-type-box" id="btn-ine" onClick={() => {setButtonPopup(true); idTypeChange("INE")}}>INE</button>
         <button className="id-type-box" id="btn-pasaporte-mexicano" onClick={() => {setButtonPopup(true); idTypeChange("pasaporte-mexicano")}}>Pasaporte Mexicano</button>
         <button className="id-type-box" id="btn-passport-book" onClick={() => {setButtonPopup(true); idTypeChange("passport-book")}}>Passport Book (USA)</button>
         <button className="id-type-box" id="btn-passport-card" onClick={() => {setButtonPopup(true); idTypeChange("passport-card")}}>Passport Card (USA) </button>
         <button className="id-type-box" id="btn-extranjero" onClick={() => {setButtonPopup(true); idTypeChange("extranjero")}}>Extranjero (pasaporte)</button>
-        {/*<ExpiredIDPopup trigger={expiredPopup} setTrigger={setExpiredPopup}>
+        <ExpiredIDPopup trigger={expiredPopup} setTrigger={setExpiredPopup}>
           La identificación ingresada está expirada. Favor de ingresar una identificación valida. 
-        </ExpiredIDPopup> */}
+        </ExpiredIDPopup> 
+        
         <Popup trigger={buttonPopup} setTrigger={setButtonPopup}>
 
+        <Popup trigger={notAPic} setTrigger={setNotAPic}>
+            <div className="not-a-pic">
+              Formato de archivo invalido, intentalo de nuevo
+            </div>
+            <div className='empty-div-continue'>
+              <button className='btn-continue'>Continuar</button>  
+            </div>
+        </Popup>
     
           <div className='title'>
             <p>{idType}</p>
