@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import Logo from './Logo';
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 function LogIn(props) {
@@ -9,15 +10,22 @@ function LogIn(props) {
     const [isLogged, setIsLogged] = useState(false)
 
     async function canProcede(){
-        let path = '/home';
-        await handleIsLogged()
-        navigate(path, {state: {
-            isLogged : true
-        }})
-    }
-
-    function handleIsLogged(){
-        setIsLogged(true)
+        const params = {
+            'Username': user,
+            'Password': pass
+          }
+          let path = '/home';
+          axios.post('https://ws.cetys.mx/Accounts/autenticarLDAP/v1/Alumnos', params)
+            .then(response => {
+              if (response.data===true){
+                console.log('response', response.data)
+                navigate(path, {state: {
+                    isLogged : true
+                  }})
+              }
+              /// handle error popup
+            }
+          )
     }
 
     function handleUser(event){

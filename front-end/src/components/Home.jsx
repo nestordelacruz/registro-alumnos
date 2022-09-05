@@ -10,8 +10,7 @@ function Home(props) {
 
 
   let navigate = useNavigate();
-  const location = useLocation();
-  console.log(location); 
+  const location = useLocation(); 
 
   const [buttonPopup, setButtonPopup] = useState(false);
   const [idType, setIdType] = useState('')
@@ -63,6 +62,7 @@ function Home(props) {
 
 
   useEffect(() => {
+    console.log(location.state.isLogged)
     if (location.state===null ||  
       location.state.isLogged === false){
       return navigate('/')
