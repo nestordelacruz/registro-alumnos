@@ -1,31 +1,44 @@
 import React, {useState} from 'react';
 import Logo from './Logo';
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import IconButton from "@material-ui/core/IconButton";
+import Visibility from "@material-ui/icons/Visibility";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import Input from "@material-ui/core/Input";
+
 
 function LogIn(props) {
     let navigate = useNavigate();
-    const [pass, setPass] = useState('')
     const [user, setUser] = useState('')
-    const [isLogged, setIsLogged] = useState(false)
+    const [values, setValues] = React.useState({
+        password: "",
+        showPassword: false,
+      });
 
     async function canProcede(){
-        let path = '/home';
-        await handleIsLogged()
-        navigate(path, {state: {
-            isLogged : true
-        }})
-    }
+        const params = {
+            'Username': user,
+            'Password': values.password
 
-    function handleIsLogged(){
-        setIsLogged(true)
+          }
+          let path = '/home';
+          axios.post('https://ws.cetys.mx/Accounts/autenticarLDAP/v1/Alumnos', params)
+            .then(response => {
+              if (response.data===true){
+                console.log('response', response.data)
+                navigate(path, {state: {
+                    isLogged : true
+                  }})
+              }
+              /// handle error popup
+            }
+          )
     }
 
     function handleUser(event){
         setUser(event.target.value)
-    }
-
-    function handlePass(event){
-        setPass(event.target.value)
     }
 
     /*
@@ -35,6 +48,19 @@ function LogIn(props) {
         textAreaRef.style.height = scrollHeight + "px";
     }
     */
+    
+        
+      const handleClickShowPassword = () => {
+        setValues({ ...values, showPassword: !values.showPassword });
+      };
+      
+      const handleMouseDownPassword = (event) => {
+        event.preventDefault();
+      };
+      
+      const handlePasswordChange = (prop) => (event) => {
+        setValues({ ...values, [prop]: event.target.value });
+      };
 
     return (
         <div className='App'>
@@ -43,12 +69,30 @@ function LogIn(props) {
                 
                 <div className="login-form">
                     <div className='log-user'>
-                        <p>Usuario</p>
-                        <input type="text" value={user} onChange={handleUser}/>
+                        <p>Matricula</p>
+                        <Input className='input-password'
+                            type={ "text"}
+                            onChange={handleUser}
+                            value={user}
+                        />
                     </div>
                     <div className='log-user'>
                         <p>Contraseña</p>
-                        <input type="text" value={pass} onChange={handlePass}  />
+                        <Input className='input-password'
+                            type={values.showPassword ? "text" : "password"}
+                            onChange={handlePasswordChange("password")}
+                            value={values.password}
+                            endAdornment={
+                            <InputAdornment position="end" className='password-adonrment'>
+                                <IconButton
+                                    onClick={handleClickShowPassword}
+                                    onMouseDown={handleMouseDownPassword}
+                                >
+                                {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                                </IconButton>
+                            </InputAdornment>
+                            }
+                        />
                     </div>
                     <div className='log-user'>
                         <button onClick={canProcede} className='btn-login' > Log In</button>
@@ -61,3 +105,4 @@ function LogIn(props) {
 }
 
 export default LogIn
+
