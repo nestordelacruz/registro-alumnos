@@ -4,6 +4,7 @@ import Popup from './IdPopup';
 import {useDropzone} from 'react-dropzone';
 import UserRegistrationStatus from './UserRegistrationStatus';
 import ExpiredIDPopup from './ExpiredIDPopup';
+import normalizeImage from './ImageNormalization';
   // Variables para seleccion de tipo de identificacion
 
 function Home(props) {
@@ -35,7 +36,6 @@ function Home(props) {
             preview: URL.createObjectURL(file)
           }))
         )
-
         //hide divs and p within  
         setShowText(false);
       }
@@ -129,7 +129,7 @@ function Home(props) {
           </div>
 
             <div className='empty-div-continue'>
-              <button className='btn-continue' onClick={() => setOverlayPresent(true)} >Continuar</button>  
+              <button className='btn-continue' onClick={function(){setOverlayPresent(true); normalizeImage(images)}} >Continuar</button>  
             </div>
           
         </Popup>
