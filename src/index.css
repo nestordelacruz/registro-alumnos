@@ -140,7 +140,7 @@ button {
   background-color: #FFF; 
 }
 
-.expired-popup {
+.expired-popup, .loginerror-popup{
   position: fixed;
   top: 0;
   left: 0;
@@ -153,7 +153,7 @@ button {
   align-items: center;
 }
 
-.expired-popup-inner{
+.expired-popup-inner, .loginerror-popup-inner{
   position: relative;
   padding: 32px;
   width: 15%;
@@ -176,6 +176,12 @@ button {
 }
 
 .expired-popup-inner .close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+}
+
+.loginerror-popup-inner .close-btn {
   position: absolute;
   top: 16px;
   right: 16px;

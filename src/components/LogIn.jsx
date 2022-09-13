@@ -7,11 +7,14 @@ import Visibility from "@material-ui/icons/Visibility";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import Input from "@material-ui/core/Input";
+import LogInErrorPopup from './LogInErrorPopup';
+
 
 
 function LogIn(props) {
     let navigate = useNavigate();
     const [user, setUser] = useState('')
+    const [logInPopup, setLogInPopup] = useState(false);
     const [values, setValues] = React.useState({
         password: "",
         showPassword: false,
@@ -32,7 +35,10 @@ function LogIn(props) {
                     isLogged : true
                   }})
               }
-              /// handle error popup
+              else {
+                setLogInPopup(true);
+              }
+              
             }
           )
     }
@@ -97,6 +103,9 @@ function LogIn(props) {
                     <div className='log-user'>
                         <button onClick={canProcede} className='btn-login' > Log In</button>
                     </div>
+                    <LogInErrorPopup trigger={logInPopup} setTrigger={setLogInPopup}>
+          Matricula y/o contraseña invalida.
+        </LogInErrorPopup> 
                 </div>
             </div>
             
