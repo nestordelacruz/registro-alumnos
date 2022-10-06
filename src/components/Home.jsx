@@ -65,30 +65,30 @@ function Home(props) {
   }
 
   async function sendImage(){
-    console.log(files[0])
+    console.log("file",files[0])
     const url = files[0].preview; 
     const params = {
       'name': files[0].name,
-      'file': url
+      'file': "text"
 
     }
     let axiosConfig = {
       headers: {
-          'Content-Type': 'application/json',
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Request-Method": "POST"
+          'Content-Type': 'text/plain',
+          "Access-Control-Allow-Origin": "http://127.0.0.1:8000",
       }
     };
-    var response = await axios.post({
+    axios.defaults.headers.common['content-type'] = `text/json`;
+    axios({
       method: 'post',
-      url: `http://127.0.0.1:8000/send`,
+      url: `http://127.0.0.1:8000/send2`,
       mode: 'no-cors',
-      withCredentials: true,
+      withCredentials: false,
       credentials: 'same-origin',
       params
-    }).then(res => console.log(res)).catch((e) => console.log(e));
+    }).catch((e) => console.log("error:  ",e));
     
-    console.log(response)
+    
     setOverlayPresent(true)
 
   }
