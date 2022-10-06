@@ -6,7 +6,7 @@ app = FastAPI()
 
 class File(BaseModel):
     name: str
-    #file: constr(max_length=63)
+    file: str
 
 
 @app.get("/")
@@ -14,5 +14,5 @@ async def root():
     return {"message": "Hello World"}
 
 @app.post("/send")
-async def create_item(name: str, file):
-    return{"message": "Hello World"}
+async def create_item(thing:File):
+    return {"message": "Hello World"}
