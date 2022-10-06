@@ -12,7 +12,7 @@ import Input from "@material-ui/core/Input";
 function LogIn(props) {
     let navigate = useNavigate();
     const [user, setUser] = useState('')
-    const [values, setValues] = React.useState({
+    const [values, setValues] = useState({
         password: "",
         showPassword: false,
       });

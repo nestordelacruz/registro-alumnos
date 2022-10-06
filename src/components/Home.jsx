@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import { useNavigate, useLocation } from "react-router-dom";
 import Popup from './IdPopup';
 import {useDropzone} from 'react-dropzone';
+import cors from 'cors';
+import axios from "axios";
 import UserRegistrationStatus from './UserRegistrationStatus';
 import ExpiredIDPopup from './ExpiredIDPopup';
   // Variables para seleccion de tipo de identificacion
@@ -14,6 +16,8 @@ function Home(props) {
 
   const [buttonPopup, setButtonPopup] = useState(false);
   const [idType, setIdType] = useState('')
+  const [hacer, setHacer] = useState(false)
+  const [imgF, setImgF] = useState("https://media1.giphy.com/media/3oEjI6SIIHBdRxXI40/200.gif")
   const [isRegistered, setIsRegistered] = useState(false);
   const [files, setFiles] = useState([]);
   const [expiredPopup, setExpiredPopup] = useState(false);
@@ -60,6 +64,34 @@ function Home(props) {
     setIdType(idType);
   }
 
+  async function sendImage(){
+    console.log(files[0])
+    const url = files[0].preview; 
+    const params = {
+      'name': files[0].name,
+      'file': url
+
+    }
+    let axiosConfig = {
+      headers: {
+          'Content-Type': 'application/json',
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Request-Method": "POST"
+      }
+    };
+    var response = await axios.post({
+      method: 'post',
+      url: `http://127.0.0.1:8000/send`,
+      mode: 'no-cors',
+      withCredentials: true,
+      credentials: 'same-origin',
+      params
+    }).then(res => console.log(res)).catch((e) => console.log(e));
+    
+    console.log(response)
+    setOverlayPresent(true)
+
+  }
 
   useEffect(() => {
     console.log(location.state.isLogged)
@@ -98,8 +130,7 @@ function Home(props) {
         <Popup trigger={overlayPresent} setTrigger={setOverlayPresent} botonOn={false}>
             <div className="div-overlay">
               <p className="overlay-text">Procesando archivo, por favor espera</p>
-              <img src="https://media1.giphy.com/media/3oEjI6SIIHBdRxXI40/200.gif" alt="funny GIF" className='overlay'/>
-              
+              <img src={imgF} alt="funny GIF" className='overlay'/>
             </div>
         </Popup>
 
@@ -108,9 +139,6 @@ function Home(props) {
           <Popup trigger={notAPic} setTrigger={setNotAPic} botonOn={true}>
               <div className="not-a-pic">
                 Formato de archivo invalido, intentalo de nuevo
-              </div>
-              <div className='empty-div-continue'>
-                <button className='btn-continue'>Continuar</button>  
               </div>
           </Popup>
       
@@ -129,7 +157,9 @@ function Home(props) {
           </div>
 
             <div className='empty-div-continue'>
-              <button className='btn-continue' onClick={() => setOverlayPresent(true)} >Continuar</button>  
+              <button className='btn-continue' onClick={async function cosa(){
+                sendImage()
+              } } >Continuar</button>  
             </div>
           
         </Popup>
