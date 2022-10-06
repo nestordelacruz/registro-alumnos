@@ -6,7 +6,7 @@ import cors from 'cors';
 import axios from "axios";
 import UserRegistrationStatus from './UserRegistrationStatus';
 import ExpiredIDPopup from './ExpiredIDPopup';
-import sendImage from '../functions/sendImage_model';
+import sendImage_ from '../functions/sendImage_model';
   // Variables para seleccion de tipo de identificacion
 
 function Home(props) {
@@ -67,13 +67,15 @@ function Home(props) {
 
   async function sendImage(){
     console.log("file",files[0])
-    const url = files[0].preview; 
+    const res = await sendImage_(files, setOverlayPresent)
+    
+    console.log("res",res)
+    /*const url = files[0].preview; 
     const params = {
       'name': files[0].name,
       'file': "text"
 
     }
-    
     axios.defaults.headers.common['content-type'] = `text/json`;
     axios({
       method: 'post',
@@ -85,10 +87,7 @@ function Home(props) {
     }).then(e => {
       console.log(e)
       setOverlayPresent(true)
-    }).catch((e) => console.log("error:  ",e));
-    
-
-
+    }).catch((e) => console.log("error:  ",e)); */
   }
 
   useEffect(() => {
