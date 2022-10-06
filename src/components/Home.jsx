@@ -6,6 +6,7 @@ import cors from 'cors';
 import axios from "axios";
 import UserRegistrationStatus from './UserRegistrationStatus';
 import ExpiredIDPopup from './ExpiredIDPopup';
+
   // Variables para seleccion de tipo de identificacion
 
 function Home(props) {
