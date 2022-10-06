@@ -1,5 +1,0 @@
-Pillow == 9.2.0
-imutils == 0.5.4
-numpy == 1.21.4
-opencv_python == 4.6.0.66
-pytesseract == 0.3.10

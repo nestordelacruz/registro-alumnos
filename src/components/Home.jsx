@@ -6,6 +6,7 @@ import cors from 'cors';
 import axios from "axios";
 import UserRegistrationStatus from './UserRegistrationStatus';
 import ExpiredIDPopup from './ExpiredIDPopup';
+import sendImage from '../functions/sendImage_model';
   // Variables para seleccion de tipo de identificacion
 
 function Home(props) {
@@ -72,12 +73,7 @@ function Home(props) {
       'file': "text"
 
     }
-    let axiosConfig = {
-      headers: {
-          'Content-Type': 'text/plain',
-          "Access-Control-Allow-Origin": "http://127.0.0.1:8000",
-      }
-    };
+    
     axios.defaults.headers.common['content-type'] = `text/json`;
     axios({
       method: 'post',
@@ -86,9 +82,12 @@ function Home(props) {
       withCredentials: false,
       credentials: 'same-origin',
       params
+    }).then(e => {
+      console.log(e)
+      setOverlayPresent(true)
     }).catch((e) => console.log("error:  ",e));
     
-    setOverlayPresent(true)
+
 
   }
 
