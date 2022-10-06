@@ -88,7 +88,6 @@ function Home(props) {
       params
     }).catch((e) => console.log("error:  ",e));
     
-    
     setOverlayPresent(true)
 
   }
