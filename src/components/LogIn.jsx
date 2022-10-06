@@ -14,6 +14,7 @@ import LogInErrorPopup from './LogInErrorPopup';
 function LogIn(props) {
     let navigate = useNavigate();
     const [user, setUser] = useState('')
+
     const [logInPopup, setLogInPopup] = useState(false);
     const [values, setValues] = React.useState({
         password: "",
