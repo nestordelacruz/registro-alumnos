@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import { useNavigate, useLocation } from "react-router-dom";
 import Popup from './IdPopup';
 import {useDropzone} from 'react-dropzone';
-import cors from 'cors';
+import {imgSrcToBlob} from 'blob-util'
 import axios from "axios";
 import UserRegistrationStatus from './UserRegistrationStatus';
 import ExpiredIDPopup from './ExpiredIDPopup';
@@ -10,20 +10,18 @@ import sendImage_ from '../functions/sendImage_model';
   // Variables para seleccion de tipo de identificacion
 
 function Home(props) {
-
-
   let navigate = useNavigate();
   const location = useLocation(); 
-
   const [buttonPopup, setButtonPopup] = useState(false);
   const [idType, setIdType] = useState('')
-  const [hacer, setHacer] = useState(false)
+  const [response, setResponse] = useState('')
   const [imgF, setImgF] = useState("https://media1.giphy.com/media/3oEjI6SIIHBdRxXI40/200.gif")
   const [isRegistered, setIsRegistered] = useState(false);
   const [files, setFiles] = useState([]);
   const [expiredPopup, setExpiredPopup] = useState(false);
   const [notAPic, setNotAPic] = useState(false);
   const [showText, setShowText] = useState(true);
+  const reader = new FileReader();
   // need to set timeout
   const [overlayPresent, setOverlayPresent] = useState(false)
 
@@ -35,6 +33,7 @@ function Home(props) {
     },
     onDrop: (acceptedFiles) => {
       if (acceptedFiles.length === 1) {
+        acceptedFiles.map((file) => {console.log("cosaa",file)})
         setFiles(
           acceptedFiles.map((file) => Object.assign(file, {
             preview: URL.createObjectURL(file)
@@ -66,32 +65,17 @@ function Home(props) {
   }
 
   async function sendImage(){
-    console.log("file",files[0])
-    const res = await sendImage_(files, setOverlayPresent)
-    
-    console.log("res",res)
-    /*const url = files[0].preview; 
-    const params = {
-      'name': files[0].name,
-      'file': "text"
+    let blobUrl = files[0];
+    let formData = new FormData()
+    formData.append(
+      "file", blobUrl, blobUrl.name
+    )
 
-    }
-    axios.defaults.headers.common['content-type'] = `text/json`;
-    axios({
-      method: 'post',
-      url: `http://127.0.0.1:8000/send2`,
-      mode: 'no-cors',
-      withCredentials: false,
-      credentials: 'same-origin',
-      params
-    }).then(e => {
-      console.log(e)
-      setOverlayPresent(true)
-    }).catch((e) => console.log("error:  ",e)); */
+    console.log(await sendImage_(formData, setOverlayPresent))
   }
 
   useEffect(() => {
-    console.log(location.state.isLogged)
+    //console.log(location.state.isLogged)
     if (location.state===null ||  
       location.state.isLogged === false){
       return navigate('/')
@@ -103,7 +87,6 @@ function Home(props) {
     }
     if (overlayPresent===true){
       setButtonPopup(false);
-      
     }
   }, [buttonPopup, location, navigate, overlayPresent]);
 

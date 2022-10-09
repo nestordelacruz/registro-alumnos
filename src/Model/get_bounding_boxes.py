@@ -4,7 +4,7 @@ import time
 import cv2
 import os
 
-PATH = r"D:\CETYS\7\IFE frente.jpg"
+#PATH = r"D:\CETYS\7\IFE frente.jpg"
 
 class get_bb:
     def __init__(self):
@@ -12,13 +12,8 @@ class get_bb:
         self.layerNames = [
             "feature_fusion/Conv_7/Sigmoid",
             "feature_fusion/concat_3"]
-        """path = os.path.join(os.getcwd(), 'imgs')
-        if os.path.exists(dir):
-            os.mkdir(path)"""
 
-    def read_and_resize(self, PATH):
-        image = cv2.imread(PATH)
-
+    def read_and_resize(self, image: np.ndarray):
         (H,W) = image.shape[:2]
 
         (newW, newH) = (512, 480)
@@ -91,12 +86,12 @@ class get_bb:
             th2 = cv2.filter2D(src=th2, ddepth=-1, kernel=kernel)
             th2 = cv2.filter2D(src=th2, ddepth=-1, kernel=kernel)"""
             #temp = cv2.resize(th2, (128,60))
-            cv2.imwrite(r'D:\ocr_registro_alumnos\imgs\{0}.jpg'.format(index), temp)
+            #cv2.imwrite(r'D:\ocr_registro_alumnos\imgs\{0}.jpg'.format(index), temp)
             index += 1
             cropped.append(temp)
            
         return cropped  
         
 
-BB = get_bb()
-cropped  = BB.predict(PATH)
+#BB = get_bb()
+#cropped  = BB.predict(PATH)
