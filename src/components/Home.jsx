@@ -7,6 +7,7 @@ import axios from "axios";
 import UserRegistrationStatus from './UserRegistrationStatus';
 import ExpiredIDPopup from './ExpiredIDPopup';
 import sendImage_ from '../functions/sendImage_model';
+
   // Variables para seleccion de tipo de identificacion
 
 function Home(props) {
