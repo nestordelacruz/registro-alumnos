@@ -92,59 +92,62 @@ function Home(props) {
   }, [buttonPopup, location, navigate, overlayPresent]);
 
   return (
-    <div>
-      <h1>Hola, X</h1>  
-      <UserRegistrationStatus userStatus={isRegistered}></UserRegistrationStatus>
-      <h2>Selecciona tu tipo de identificacion: </h2>  
+    <div className='home-background'>
+      <div className='home-innerContent'>
+        <h1>Hola, X</h1>  
+        <UserRegistrationStatus userStatus={isRegistered}></UserRegistrationStatus>
+        <h2>Selecciona tu tipo de identificacion: </h2>  
 
-      <div className='home-page'>
+        <div className='home-page'>
+          <button className="id-type-box" id="btn-ine" onClick={() => {setButtonPopup(true); idTypeChange("INE")}}>INE</button>
+          <button className="id-type-box" id="btn-pasaporte-mexicano" onClick={() => {setButtonPopup(true); idTypeChange("pasaporte-mexicano")}}>Pasaporte Mexicano</button>
+          <button className="id-type-box" id="btn-passport-book" onClick={() => {setButtonPopup(true); idTypeChange("passport-book")}}>Passport Book (USA)</button>
+          <button className="id-type-box" id="btn-passport-card" onClick={() => {setButtonPopup(true); idTypeChange("passport-card")}}>Passport Card (USA) </button>
+          <button className="id-type-box" id="btn-extranjero" onClick={() => {setButtonPopup(true); idTypeChange("extranjero")}}>Extranjero (pasaporte)</button>
+          <ExpiredIDPopup trigger={expiredPopup} setTrigger={setExpiredPopup}>
+            La identificación ingresada está expirada. Favor de ingresar una identificación valida. 
+          </ExpiredIDPopup> 
+        </div>
 
-        <button className="id-type-box" id="btn-ine" onClick={() => {setButtonPopup(true); idTypeChange("INE")}}>INE</button>
-        <button className="id-type-box" id="btn-pasaporte-mexicano" onClick={() => {setButtonPopup(true); idTypeChange("pasaporte-mexicano")}}>Pasaporte Mexicano</button>
-        <button className="id-type-box" id="btn-passport-book" onClick={() => {setButtonPopup(true); idTypeChange("passport-book")}}>Passport Book (USA)</button>
-        <button className="id-type-box" id="btn-passport-card" onClick={() => {setButtonPopup(true); idTypeChange("passport-card")}}>Passport Card (USA) </button>
-        <button className="id-type-box" id="btn-extranjero" onClick={() => {setButtonPopup(true); idTypeChange("extranjero")}}>Extranjero (pasaporte)</button>
-        <ExpiredIDPopup trigger={expiredPopup} setTrigger={setExpiredPopup}>
-          La identificación ingresada está expirada. Favor de ingresar una identificación valida. 
-        </ExpiredIDPopup> 
         
-        <Popup trigger={overlayPresent} setTrigger={setOverlayPresent} botonOn={false}>
-            <div className="div-overlay">
-              <p className="overlay-text">Procesando archivo, por favor espera</p>
-              <img src={imgF} alt="funny GIF" className='overlay'/>
-            </div>
-        </Popup>
 
-        <Popup trigger={buttonPopup} setTrigger={setButtonPopup} botonOn={true}>
-
-          <Popup trigger={notAPic} setTrigger={setNotAPic} botonOn={true}>
-              <div className="not-a-pic">
-                Formato de archivo invalido, intentalo de nuevo
+      </div>
+      <Popup trigger={overlayPresent} setTrigger={setOverlayPresent} botonOn={false}>
+              <div className="div-overlay">
+                <p className="overlay-text">Procesando archivo, por favor espera</p>
+                <img src={imgF} alt="funny GIF" className='overlay'/>
               </div>
           </Popup>
-      
-          <div className='title'>
-            <p>{idType}</p>
-          </div>
 
-          <div className='dnd-upload-bound' {...getRootProps()}>
-            <input {...getInputProps()} /> 
-            {showText ? 
-              isDragActive ?
-                <p>Drop the files here ...</p> :
-                <p>Drag 'n' drop some files here, or click to select files</p>
-                : <div>{buttonPopup === true &&  images}</div>}
+          <Popup trigger={buttonPopup} setTrigger={setButtonPopup} botonOn={true}>
 
-          </div>
-
-            <div className='empty-div-continue'>
-              <button className='btn-continue' onClick={async function cosa(){
-                sendImage()
-              } } >Continuar</button>  
+            <Popup trigger={notAPic} setTrigger={setNotAPic} botonOn={true}>
+                <div className="not-a-pic">
+                  Formato de archivo invalido, intentalo de nuevo
+                </div>
+            </Popup>
+        
+            <div className='title'>
+              <p>{idType}</p>
             </div>
-          
-        </Popup>
-      </div>
+
+            <div className='dnd-upload-bound' {...getRootProps()}>
+              <input {...getInputProps()} /> 
+              {showText ? 
+                isDragActive ?
+                  <p>Drop the files here ...</p> :
+                  <p>Drag 'n' drop some files here, or click to select files</p>
+                  : <div>{buttonPopup === true &&  images}</div>}
+
+            </div>
+
+              <div className='empty-div-continue'>
+                <button className='btn-continue' onClick={async function cosa(){
+                  sendImage()
+                } } >Continuar</button>  
+              </div>
+            
+          </Popup>
     </div>
   );  
 }
