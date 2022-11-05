@@ -33,7 +33,8 @@ function LogIn(props) {
               if (response.data===true){
                 console.log('response', response.data)
                 navigate(path, {state: {
-                    isLogged : true
+                    isLogged : true,
+                    matricula: user
                   }})
               }
               else {
