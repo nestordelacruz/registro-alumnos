@@ -19,7 +19,6 @@ export default async function sendImage_(formData, over){
       console.log("error:  ",e)
       return e;
     });
-    
     return res;
     /*axios.defaults.headers.common['content-type'] = `text/json`;
     axios({

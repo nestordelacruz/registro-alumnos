@@ -89,6 +89,8 @@ function Home(props) {
       setDataPreview(true);
     }
     console.log('response',response);
+    let vig = response.message.vigencia;
+    setExpiredPopup(vig<=2022)
   }
 
   async function database_comm(){
@@ -119,6 +121,11 @@ function Home(props) {
         //console.log(logout, tempLocation)
       return navigate('/')
     }
+    if (expiredPopup===true){
+      setButtonPopup(false)
+      setOverlayPresent(false)
+      setDataPreview(false)
+    }
     if (buttonPopup===false){
       setFiles([])
       setShowText(true)
@@ -129,7 +136,7 @@ function Home(props) {
       setButtonPopup(false);
     }
     database_comm()
-  }, [buttonPopup, location, navigate, overlayPresent, logout, tempLocation]);
+  }, [buttonPopup, location, navigate, overlayPresent, logout, tempLocation, expiredPopup]);
 
   return (
     <div className='home-background' onLoad={log_out()}>
@@ -145,12 +152,12 @@ function Home(props) {
         <div className='home-page'>
           <button className="id-type-box" id="btn-ine" onClick={() => {setButtonPopup(true); idTypeChange("INE")}}>INE</button>
           <button className="id-type-box" id="btn-pasaporte-mexicano" onClick={() => {setButtonPopup(true); idTypeChange("Pasaporte Mexicano")}}>Pasaporte Mexicano</button>
-          <ExpiredIDPopup trigger={expiredPopup} setTrigger={setExpiredPopup}>
-            La identificación ingresada está expirada. Favor de ingresar una identificación valida. 
-          </ExpiredIDPopup> 
         </div>
 
       </div>
+      <ExpiredIDPopup trigger={expiredPopup} setTrigger={setExpiredPopup}>
+            La identificación ingresada está expirada. Favor de ingresar una identificación valida. 
+          </ExpiredIDPopup> 
       <Popup trigger={overlayPresent} setTrigger={setOverlayPresent} botonOn={false}>
           <div className="div-overlay">
             <p className="overlay-text">Procesando archivo, por favor espera</p>

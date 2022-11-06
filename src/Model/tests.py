@@ -1,15 +1,44 @@
-from PIL import Image
+from PIL import Image 
 import numpy as np
 import cv2
+
+
+
+def gcd (a,b):
+    if b == 0:
+        return a
+    return gcd(b, a % b)
+
 def detect():
     import easyocr
     reader = easyocr.Reader(['es','en']) # this needs to run only once to load the model into memory
-    result = reader.readtext(r'F:\CETYS\p\registro-alumnos\src\Model\0.jpg', decoder='wordbeamsearch')
-    for i in result:
+    image =  Image.open(r"D:\CETYS\7\INE2.jpg").convert('RGB')
+    image = np.array(image)
+    image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+    h, w = image.shape[:2]
+    r = gcd(w,h)
+    if r != 1:
+        image = cv2.resize(image, (640, int(640*(int(h/r)/int(w/r)))))
+    #image = cv2.resize(image, (640, 320))
+    #temp = cv2.fastNlMeansDenoisingColored(temp,None,10,10,7,21)
+    cv2.imwrite(r'F:\CETYS\p\registro-alumnos\src\Model\{0}.jpg'.format(0), image)
+    result = reader.readtext(r'F:\CETYS\p\registro-alumnos\src\Model\0.jpg', decoder='wordbeamsearch', beamWidth=10)
+    vigencia = None
+    for i in result[:-2]:
         print(i)
+    for i in result[-2:]:
+        if i[1].isnumeric():
+            if int(i[1]) > 2022:
+                vigencia = int(i[1])
+            print('YESS')   
+        if i[1][-4:].isnumeric():
+            if int(i[1][-4:]) > 2022:
+                vigencia = int(i[1][-4:])
+            print('YESS')
+    print(vigencia, result[:][:][1])
 
 def cosa():
-    image =  Image.open(r"C:\Users\Yo\Downloads\bw_image.png" ).convert('RGB')
+    image =  Image.open(r"D:\CETYS\7\MbFOuxJ1nna1V.jpg" ).convert('RGB')
     image = np.array(image)
     image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
     temp = cv2.resize(image, (640, 320))
@@ -25,5 +54,5 @@ def cosa():
     
     #temp = cv2.resize(th2, (128,60))
     cv2.imwrite(r'F:\CETYS\p\registro-alumnos\src\Model\{0}.jpg'.format(0), th2)
-cosa()
+#cosa()
 detect()

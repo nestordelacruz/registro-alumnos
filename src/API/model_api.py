@@ -1,18 +1,21 @@
 from fastapi import FastAPI, File, BackgroundTasks
 from pydantic import BaseModel,constr
 from starlette.middleware.cors import CORSMiddleware
-from PIL import Image
+from PIL import Image 
+import numpy as np
+import cv2
 import io
 import sys
 sys.path.insert(0,"..")
-from Model.text_recognition import text_recog
-from Model.get_bounding_boxes import get_bb
+from Model.model_text_recognition import text_recog
+#from Model.text_recognition import text_recog
+#from Model.get_bounding_boxes import get_bb
 
 import cv2
 import numpy as np
 
 recog_instance = text_recog()
-bb_instance = get_bb()
+#bb_instance = get_bb()
 
 app = FastAPI()
 app.add_middleware(
@@ -30,9 +33,7 @@ async def root():
 def coa(file):
     #print(file)
     image =  Image.open(io.BytesIO(file) ).convert('RGB')
-    image = np.array(image)
-    image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
-    rs = recog_instance.do_all(image, bb_instance)
+    rs = recog_instance.detect(image)
     #print(rs)
     return rs
 
