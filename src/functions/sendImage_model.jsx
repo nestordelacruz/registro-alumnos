@@ -13,9 +13,13 @@ export default async function sendImage_(formData, over){
     .then( function(response) {
       console.log("inside", response)
       over(false)
-      return response.message
+      return response
     })
-    .catch((e) => console.log("error:  ",e));
+    .catch((e) => {
+      console.log("error:  ",e)
+      return e;
+    });
+    
     return res;
     /*axios.defaults.headers.common['content-type'] = `text/json`;
     axios({
