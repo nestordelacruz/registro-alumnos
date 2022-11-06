@@ -1,21 +1,25 @@
 body {
-  margin: 0;
+  margin: 0px;
+  height:100vh;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #312e2a;
-  background-image: url("https://img77.uenicdn.com/image/upload/v1582079415/business/7d6fcee6-f2d5-4b28-9f64-03bb58e36b6c/fachada-edificiojpg.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;  
+  
 }
 
 .home-background{
   display: flex;
+  height: 100vh; /* Set height as all page-screen*/
+  margin: auto;
   justify-content: center;
   align-items: center;
   align-content: center;
+  background-image: url("https://img77.uenicdn.com/image/upload/v1582079415/business/7d6fcee6-f2d5-4b28-9f64-03bb58e36b6c/fachada-edificiojpg.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;  
 }
 
 .home-innerContent{
@@ -37,8 +41,6 @@ body {
   position: relative;
   max-height: 70%;
 }
-
-
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
@@ -112,9 +114,11 @@ button {
 }
 
 .id-type-box{
-  display: flex;
+  position: relative;
+  display: inline-block;
   justify-content: center;
   align-items: center;
+  height: auto;
 }
 
 .logo-div{
