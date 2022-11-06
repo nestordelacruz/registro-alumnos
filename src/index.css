@@ -198,8 +198,8 @@ button {
 .expired-popup-inner, .loginerror-popup-inner{
   position: relative;
   padding: 32px;
-  width: 15%;
-  height: 20%;
+  width: 60%;
+  height: 40%;
   background-color: #FFF; 
   color: black;
 }
