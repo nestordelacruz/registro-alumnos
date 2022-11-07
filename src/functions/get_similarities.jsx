@@ -1,18 +1,16 @@
 import axios from "axios";
 import React from 'react'
 
-export default async function sendImage_(formData, over){
-    console.log("params", formData)
-    over(true);
+export default async function get_similarities_( user_data){
+    console.log("JSON sent", JSON.stringify({"data": user_data}))
     const reqOpts = {
       method : 'POST',
-      body: formData
+      body: JSON.stringify({'data': user_data})
     }
-    const res = fetch(`http://127.0.0.1:8000/send2`, reqOpts, {mode: 'cors'})
+    const res = fetch(`http://127.0.0.1:8000/similarity`, reqOpts, {mode: 'cors'})
     .then(res => res.json())
     .then( function(response) {
       console.log("inside", response)
-      over(false)
       return response
     })
     .catch((e) => {

@@ -212,6 +212,18 @@ button {
   display: flex;
 }
 
+.div_preview{
+  overflow: hidden;
+}
+
+.escolar-preview{
+  float:left;
+}
+
+.modelo-unsuccessful{
+  float:right;
+}
+
 .popup-inner .close-btn {
   position: absolute;
   top: 16px;
