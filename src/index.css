@@ -218,10 +218,12 @@ button {
 
 .escolar-preview{
   float:left;
+  width:40%
 }
 
 .modelo-unsuccessful{
   float:right;
+  width:40%
 }
 
 .popup-inner .close-btn {

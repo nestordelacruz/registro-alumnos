@@ -44,8 +44,8 @@ async def create_item(file: bytes = File(...), background_tasks: BackgroundTasks
 async def check_similarity(request: Request, background_tasks: BackgroundTasks = None):
     data = await request.json()
     user_data = list(data['data']['user_data'].values())
+    idType = data['data']['idType']
     print('user_data', user_data)
     results = eval_text_instance.eval_similarity(data['data']['model_response'], user_data)
     print(results)
-
     return {'failed_detections':list(results.values())}

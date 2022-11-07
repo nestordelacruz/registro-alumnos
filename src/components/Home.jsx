@@ -83,7 +83,7 @@ function Home(props) {
       'last_name_mother' : false
     }
     
-    let temp_r = ["INSTITUTO NACIONAL ELECTORAL","MÉXICO","CREDENCIAL PARA VOTAR","FECHA De NaCIMIENTO","NOMBRE","07/07/1996","Cuz","Equivl","SEXO","Elin Jabier","DOMICILIO","C SOCIALISMO 95","COL DIEGO LUCERO 31123","CHIHUAHUA; CHIH.","CLAVE DE ELECTOR","CLMRKR96O7O7O8MOOO","CAMK96O7O7MCHLRROS","AÑO DE rEGISTRO   2014 00","CURP","ESTADO","08","MUNICIPIO  019","SECCIÓN","0702","LOCALIDAD","0001","EMISIÓN","2014","VIGENCIA","2024",";"]
+    let temp_r = response_['message']['data'];//["INSTITUTO NACIONAL ELECTORAL","MÉXICO","CREDENCIAL PARA VOTAR","FECHA De NaCIMIENTO","NOMBRE","07/07/1996","Cuz","Equivl","SEXO","Elin Jabier","DOMICILIO","C SOCIALISMO 95","COL DIEGO LUCERO 31123","CHIHUAHUA; CHIH.","CLAVE DE ELECTOR","CLMRKR96O7O7O8MOOO","CAMK96O7O7MCHLRROS","AÑO DE rEGISTRO   2014 00","CURP","ESTADO","08","MUNICIPIO  019","SECCIÓN","0702","LOCALIDAD","0001","EMISIÓN","2014","VIGENCIA","2024",";"]
     //response_['message']['data']
     for (let i = 0; i < temp_r.length; i++) {
       for (const item in user_data) {
@@ -101,9 +101,9 @@ function Home(props) {
   }
 
   async function similarities(response_model){
-    let res = ["INSTITUTO NACIONAL ELECTORAL","MÉXICO","CREDENCIAL PARA VOTAR","FECHA De NaCIMIENTO","NOMBRE","07/07/1996","Cuz","Esquivl","SEXO","Elin Jabier","DOMICILIO","C SOCIALISMO 95","COL DIEGO LUCERO 31123","CHIHUAHUA; CHIH.","CLAVE DE ELECTOR","CLMRKR96O7O7O8MOOO","CAMK96O7O7MCHLRROS","AÑO DE rEGISTRO   2014 00","CURP","ESTADO","08","MUNICIPIO  019","SECCIÓN","0702","LOCALIDAD","0001","EMISIÓN","2014","VIGENCIA","2024",";"]
+    let res = response_model['message']['data'];//["INSTITUTO NACIONAL ELECTORAL","MÉXICO","CREDENCIAL PARA VOTAR","FECHA De NaCIMIENTO","NOMBRE","07/07/1996","Cuz","Esquivl","SEXO","Elin Jabier","DOMICILIO","C SOCIALISMO 95","COL DIEGO LUCERO 31123","CHIHUAHUA; CHIH.","CLAVE DE ELECTOR","CLMRKR96O7O7O8MOOO","CAMK96O7O7MCHLRROS","AÑO DE rEGISTRO   2014 00","CURP","ESTADO","08","MUNICIPIO  019","SECCIÓN","0702","LOCALIDAD","0001","EMISIÓN","2014","VIGENCIA","2024",";"]
     //response_model['message']['data'];
-    let data = {"model_response":res, "user_data":userData}
+    let data = {"model_response":res, "user_data":userData, 'idType': idType}
     console.log('INSIDE SIMILARITIES', data)
     let response_ = await get_similarities_(data)
     let failed_detections = response_['failed_detections'];
@@ -124,9 +124,12 @@ function Home(props) {
     formData.append(
       "file", blobUrl, blobUrl.name
     )
-    let response = await sendImage_(formData, setOverlayPresent)
+    let response = await sendImage_(formData, setOverlayPresent, idType)
     if ('message' in response){
-      let vig = response.message.vigencia;
+      let vig = response.message.vigencia_ine;
+      if( idType === 'Pasaporte Mexicano'){
+        vig = response.message.vigencia_pass;
+      }
       if (vig <= 2022){
         setExpiredPopup(true)
         return;
@@ -136,8 +139,11 @@ function Home(props) {
       if (res === true){
         setSuccessPreview(true)
         setTitle_prview('La identificación ha sido aceptada exitosamente')
+        setIsRegistered(true)
+        console.log(isRegistered)
       }
       else{
+        setSuccessPreview(false)
         similarities(response)
         setTitle_prview('Los datos obtenidos no coinciden con los previamente registrados en Escolar. \nFavor de utilizar otra identificación u otra foto')
       }
@@ -170,6 +176,7 @@ function Home(props) {
         setShowText(true)
         setIdType('')
         setTempLocation(null)
+        setIsRegistered(false)
 
         //console.log(logout, tempLocation)
       return navigate('/')
@@ -202,8 +209,8 @@ function Home(props) {
         <h2>Selecciona tu tipo de identificacion: </h2>  
 
         <div className='home-page'>
-          <button className="id-type-box" id="btn-ine" onClick={() => {setButtonPopup(true); idTypeChange("INE")}}>INE</button>
-          <button className="id-type-box" id="btn-pasaporte-mexicano" onClick={() => {setButtonPopup(true); idTypeChange("Pasaporte Mexicano")}}>Pasaporte Mexicano</button>
+          <button className="id-type-box" id="btn-ine" disabled={isRegistered} onClick={() => {setButtonPopup(true); idTypeChange("INE")}}>INE</button>
+          <button className="id-type-box" id="btn-pasaporte-mexicano" disabled={isRegistered} onClick={() => {setButtonPopup(true); idTypeChange("Pasaporte Mexicano")}}>Pasaporte Mexicano</button>
         </div>
 
       </div>
@@ -259,6 +266,7 @@ function Home(props) {
                 </div>
               : null
             }
+            <button className="btn-aceptar" onClick={() => setDataPreview(false)}>Aceptar</button>
           </div>
       </Popup>
 
