@@ -1,6 +1,3 @@
-import axios from "axios";
-import React from 'react'
-
 export default async function sendImage_(formData, over, idType){
     console.log("params", formData)
     over(true);
