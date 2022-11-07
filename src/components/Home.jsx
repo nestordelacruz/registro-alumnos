@@ -127,7 +127,7 @@ function Home(props) {
     if ('message' in response){
       let vig = response.message.vigencia_ine;
       if( idType === 'Pasaporte Mexicano'){
-        vig = 2030//response.message.vigencia_pass; //2030
+        vig = response.message.vigencia_pass; //2030
       }
       if (vig <= 2022){
         setExpiredPopup(true)
