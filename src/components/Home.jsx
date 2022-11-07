@@ -2,15 +2,12 @@ import React, {useEffect, useState} from 'react';
 import { useNavigate, useLocation } from "react-router-dom";
 import Popup from './IdPopup';
 import {useDropzone} from 'react-dropzone';
-import {imgSrcToBlob} from 'blob-util'
-import axios from "axios";
 import UserRegistrationStatus from './UserRegistrationStatus';
 import ExpiredIDPopup from './ExpiredIDPopup';
 import sendImage_ from '../functions/sendImage_model';
 import database_control from '../functions/database_controller'
 import get_similarities_ from '../functions/get_similarities'
-
-  // Variables para seleccion de tipo de identificacion
+import create_record from '../functions/create_record_extracted_data'
 
 function Home(props) {
   let navigate = useNavigate();
@@ -24,13 +21,16 @@ function Home(props) {
   const [notAPic, setNotAPic] = useState(false);
   const [showText, setShowText] = useState(true);
   const [dataPreview, setDataPreview] = useState(false);
-  const [userData, setUserData]= useState([]);
+  const [userData, setUserData]= useState({'name': null,
+                                          'middle_names': null,
+                                          'last_name_father' : null,
+                                          'last_name_mother' : null});
   const [logout, setLogOut] = useState(false);
   const [tempLocation, setTempLocation] = useState(location.state)
   const [title_preview, setTitle_prview] = useState(null);
   const [success_preview, setSuccessPreview] = useState(false);
+  const [continue_, setContinue] = useState(false)
   const [responseData, setResponseData] = useState([])
-  const reader = new FileReader();
   // need to set timeout
   const [overlayPresent, setOverlayPresent] = useState(false)
 
@@ -48,9 +48,9 @@ function Home(props) {
             preview: URL.createObjectURL(file)
           }))
         )
-
         //hide divs and p within  
         setShowText(false);
+        setContinue(true)
       }
       else{
         setNotAPic(true);
@@ -58,7 +58,6 @@ function Home(props) {
         //setButtonPopup(false)
       }
     }
-
   })
 
   const images = files.map((file) => (
@@ -128,19 +127,25 @@ function Home(props) {
     if ('message' in response){
       let vig = response.message.vigencia_ine;
       if( idType === 'Pasaporte Mexicano'){
-        vig = response.message.vigencia_pass;
+        vig = response.message.vigencia_pass; //2030
       }
       if (vig <= 2022){
         setExpiredPopup(true)
         return;
       }
-      
+      console.log('response',response);
       let res = check_response_data(response)
       if (res === true){
         setSuccessPreview(true)
         setTitle_prview('La identificación ha sido aceptada exitosamente')
-        setIsRegistered(true)
-        console.log(isRegistered)
+        setIsRegistered(true);
+        const data_ = ((
+          { name, middle_names, last_name_father, last_name_mother }
+        ) => ({ name, middle_names, last_name_father, last_name_mother }))(userData);
+        
+        console.log(data_);
+        let response_post_data = await create_record(data_)
+        console.log('response post', response_post_data)
       }
       else{
         setSuccessPreview(false)
@@ -149,14 +154,11 @@ function Home(props) {
       }
       setDataPreview(true);
     }
-    console.log('response',response);
-
   }
 
   async function database_comm(){
     let response = await database_control(location.state.matricula);
-    setUserData(response[0])
-    //console.log('user', userData)
+    setUserData(response)
   }
   
   function log_out(){
@@ -215,8 +217,11 @@ function Home(props) {
 
       </div>
       <ExpiredIDPopup trigger={expiredPopup} setTrigger={setExpiredPopup}>
-            La identificación ingresada está expirada. Favor de ingresar una identificación valida. 
-          </ExpiredIDPopup> 
+          Identificación no vigente. Favor de actualizar o subir otra identificación 
+          <div className='empty-div-continue'>
+            <button className='btn-continue' onClick={() => setExpiredPopup(false) } >Aceptar</button>  
+          </div>
+      </ExpiredIDPopup> 
       <Popup trigger={overlayPresent} setTrigger={setOverlayPresent} botonOn={false}>
           <div className="div-overlay">
             <p className="overlay-text">Procesando archivo, por favor espera</p>
@@ -287,13 +292,13 @@ function Home(props) {
           {showText ? 
             isDragActive ?
               <p>Suelta los archivos aqui ...</p> :
-              <p>Selecciona tu archivo de imagen aqui, es posible arrastrar y soltar.</p>
+              <p>Arrastra o presiona aquí para subir tu archivo</p>
               : <div>{buttonPopup === true &&  images}</div>}
 
         </div>
 
           <div className='empty-div-continue'>
-            <button className='btn-continue' onClick={async function cosa(){
+            <button className='btn-continue' disabled={showText}  onClick={async function cosa(){
               sendImage()
             } } >Continuar</button>  
           </div>

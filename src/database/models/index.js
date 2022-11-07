@@ -21,5 +21,7 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 db.alumnos = require("./alumnos.model.js")(sequelize, Sequelize);
+db.extraidos = require("./extraidos.model.js")(sequelize, Sequelize);
+db.test = require("./test.model.js")(sequelize, Sequelize);
 
 module.exports = db;

@@ -1,13 +1,63 @@
 const db = require("../models");
 const Alumnos = db.alumnos;
+const Extraidos = db.extraidos;
+const Test = db.test;
 const Op = db.Sequelize.Op;
 
-// Create and Save a new Tutorial
 exports.create = (req, res) => {
-  
+  console.log('INSIDE', req.body)
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+    return;
+  }
+
+  const data_extraida = {
+    name: req.body.name,
+    middle_names: req.body.middle_names,
+    last_name_father: req.body.last_name_father,
+    last_name_mother: req.body.last_name_mother
+  };
+
+  Extraidos.create(data_extraida)
+    .then(data => {
+      console.log('dentro', data)
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while creating the Record."
+      });
+    }); 
 };
 
-// Retrieve all Tutorials from the database.
+exports.create_test = (req, res) => {
+  console.log('INSIDE', req.body)
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+    return;
+  }
+
+  const data_extraida = {
+    name: req.body.name,
+  };
+
+  Test.create(data_extraida)
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while creating the Record."
+      });
+    }); 
+};
+
 exports.findAll = (req, res) => {
     console.log(req)
     const title = req.query.title;
@@ -20,48 +70,42 @@ exports.findAll = (req, res) => {
       .catch(err => {
         res.status(500).send({
           message:
-            err.message || "Some error occurred while retrieving tutorials."
+            err.message || "Some error occurred while retrieving alumnos."
         });
       });
   };
 
-// Find a single Tutorial with an id
 exports.findOne = (req, res) => {
   const id = req.params.id;
-
   Alumnos.findByPk(id)
     .then(data => {
       if (data) {
         res.send(data);
       } else {
         res.status(404).send({
-          message: `Cannot find Tutorial with id=${id}.`
+          message: `Cannot find Alumno with id=${id}.`
         });
       }
     })
     .catch(err => {
       res.status(500).send({
-        message: "Error retrieving Tutorial with id=" + id
+        message: "Error retrieving Alumno with id=" + id
       });
     });
 };
 
-// Update a Tutorial by the id in the request
 exports.update = (req, res) => {
   
 };
 
-// Delete a Tutorial with the specified id in the request
 exports.delete = (req, res) => {
   
 };
 
-// Delete all Tutorials from the database.
 exports.deleteAll = (req, res) => {
   
 };
 
-// Find all published Tutorials
 exports.findAllPublished = (req, res) => {
   
 };

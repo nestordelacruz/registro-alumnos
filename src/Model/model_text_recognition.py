@@ -17,8 +17,9 @@ class text_recog:
         image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
         h, w = image.shape[:2]
         r = self.gcd(w,h)
-        if r != 1:
-            image = cv2.resize(image, (640, int(640*(int(h/r)/int(w/r)))))
+
+        print((640, int(640*(int(h/r)/int(w/r)))))
+        image = cv2.resize(image, (640, int(640*(int(h/r)/int(w/r)))))
         cv2.imwrite(r'F:\CETYS\p\registro-alumnos\src\Model\{0}.jpg'.format(0), image)
         result = self.reader.readtext(r'F:\CETYS\p\registro-alumnos\src\Model\0.jpg', decoder='wordbeamsearch', beamWidth=10)
         vigencia = None

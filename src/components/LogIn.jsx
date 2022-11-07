@@ -42,7 +42,9 @@ function LogIn(props) {
               }
               
             }
-          )
+          ).catch((e) => {
+            setLogInPopup(true);
+            })
     }
 
     function handleUser(event){
@@ -106,8 +108,11 @@ function LogIn(props) {
                         <button onClick={canProcede} className='btn-login' > Log In</button>
                     </div>
                     <LogInErrorPopup trigger={logInPopup} setTrigger={setLogInPopup}>
-          Matricula y/o contraseña invalida.
-        </LogInErrorPopup> 
+                      Matricula y/o contraseña invalida.
+                      <div className='empty-div-continue'>
+                      <button className='btn-continue' onClick={() => setLogInPopup(false) } >Aceptar</button>  
+                    </div>
+                  </LogInErrorPopup> 
                 </div>
             </div>
             

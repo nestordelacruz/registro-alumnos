@@ -1,6 +1,3 @@
-import axios from "axios";
-import React from 'react'
-
 export default async function get_similarities_( user_data){
     console.log("JSON sent", JSON.stringify({"data": user_data}))
     const reqOpts = {

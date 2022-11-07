@@ -49,3 +49,4 @@ async def check_similarity(request: Request, background_tasks: BackgroundTasks =
     results = eval_text_instance.eval_similarity(data['data']['model_response'], user_data)
     print(results)
     return {'failed_detections':list(results.values())}
+    
