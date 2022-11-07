@@ -22,8 +22,6 @@ class text_recog:
         cv2.imwrite(r'F:\CETYS\p\registro-alumnos\src\Model\{0}.jpg'.format(0), image)
         result = self.reader.readtext(r'F:\CETYS\p\registro-alumnos\src\Model\0.jpg', decoder='wordbeamsearch', beamWidth=10)
         vigencia = None
-        #for i in result[:-2]:
-        #print(i)
         for i in result[-2:]:
             if i[1].isnumeric():
                 if int(i[1]) > 2022:

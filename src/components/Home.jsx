@@ -8,6 +8,7 @@ import UserRegistrationStatus from './UserRegistrationStatus';
 import ExpiredIDPopup from './ExpiredIDPopup';
 import sendImage_ from '../functions/sendImage_model';
 import database_control from '../functions/database_controller'
+import get_similarities_ from '../functions/get_similarities'
 
   // Variables para seleccion de tipo de identificacion
 
@@ -16,7 +17,6 @@ function Home(props) {
   const location = useLocation(); 
   const [buttonPopup, setButtonPopup] = useState(false);
   const [idType, setIdType] = useState('')
-  const [response, setResponse] = useState('')
   const [imgF, setImgF] = useState("https://media1.giphy.com/media/3oEjI6SIIHBdRxXI40/200.gif")
   const [isRegistered, setIsRegistered] = useState(false);
   const [files, setFiles] = useState([]);
@@ -27,6 +27,9 @@ function Home(props) {
   const [userData, setUserData]= useState([]);
   const [logout, setLogOut] = useState(false);
   const [tempLocation, setTempLocation] = useState(location.state)
+  const [title_preview, setTitle_prview] = useState(null);
+  const [success_preview, setSuccessPreview] = useState(false);
+  const [responseData, setResponseData] = useState([])
   const reader = new FileReader();
   // need to set timeout
   const [overlayPresent, setOverlayPresent] = useState(false)
@@ -58,14 +61,6 @@ function Home(props) {
 
   })
 
-  const sistema = {
-    'Matricula': 'id',
-    'Nombre': 'name',
-    'Segundo Nombre(s)': 'middle_names',
-    'Apellido Paterno': 'last_name_father',
-    'Apellido Materno': 'last_name_mother'
-  }
-
   const images = files.map((file) => (
     <div key={file.name}>
       <div>
@@ -78,6 +73,51 @@ function Home(props) {
     setIdType(idType);
   }
 
+  function check_response_data(response_){
+    let user_data = (({ last_name_father, last_name_mother,  middle_names, name }) => ({ last_name_father, last_name_mother, middle_names, name }))(userData);;    
+    //console.log(user_data)
+    let res = {
+      'name': false,
+      'middle_names': false,
+      'last_name_father' : false,
+      'last_name_mother' : false
+    }
+    
+    let temp_r = ["INSTITUTO NACIONAL ELECTORAL","MÉXICO","CREDENCIAL PARA VOTAR","FECHA De NaCIMIENTO","NOMBRE","07/07/1996","Cuz","Equivl","SEXO","Elin Jabier","DOMICILIO","C SOCIALISMO 95","COL DIEGO LUCERO 31123","CHIHUAHUA; CHIH.","CLAVE DE ELECTOR","CLMRKR96O7O7O8MOOO","CAMK96O7O7MCHLRROS","AÑO DE rEGISTRO   2014 00","CURP","ESTADO","08","MUNICIPIO  019","SECCIÓN","0702","LOCALIDAD","0001","EMISIÓN","2014","VIGENCIA","2024",";"]
+    //response_['message']['data']
+    for (let i = 0; i < temp_r.length; i++) {
+      for (const item in user_data) {
+        //console.log(user_data[item].toLowerCase(), cosa['data'][i].toLowerCase())
+        if (temp_r[i].toLowerCase().includes(user_data[item].toLowerCase())){
+          res[item] = true;
+        }
+      }
+    }
+    const areTrue = Object.values(res).every(
+      value => value === true
+    );
+    console.log(areTrue)
+    return areTrue;
+  }
+
+  async function similarities(response_model){
+    let res = ["INSTITUTO NACIONAL ELECTORAL","MÉXICO","CREDENCIAL PARA VOTAR","FECHA De NaCIMIENTO","NOMBRE","07/07/1996","Cuz","Esquivl","SEXO","Elin Jabier","DOMICILIO","C SOCIALISMO 95","COL DIEGO LUCERO 31123","CHIHUAHUA; CHIH.","CLAVE DE ELECTOR","CLMRKR96O7O7O8MOOO","CAMK96O7O7MCHLRROS","AÑO DE rEGISTRO   2014 00","CURP","ESTADO","08","MUNICIPIO  019","SECCIÓN","0702","LOCALIDAD","0001","EMISIÓN","2014","VIGENCIA","2024",";"]
+    //response_model['message']['data'];
+    let data = {"model_response":res, "user_data":userData}
+    console.log('INSIDE SIMILARITIES', data)
+    let response_ = await get_similarities_(data)
+    let failed_detections = response_['failed_detections'];
+    let wrong_detected_data = {
+      'name': failed_detections[0],
+      'middle_names': failed_detections[1],
+      'last_name_father' : failed_detections[2],
+      'last_name_mother' : failed_detections[3]
+    }
+    console.log('WRONG1', wrong_detected_data)
+    setResponseData(wrong_detected_data)
+    console.log('WRONG1', responseData)
+  }
+
   async function sendImage(){
     let blobUrl = files[0];
     let formData = new FormData()
@@ -86,11 +126,25 @@ function Home(props) {
     )
     let response = await sendImage_(formData, setOverlayPresent)
     if ('message' in response){
+      let vig = response.message.vigencia;
+      if (vig <= 2022){
+        setExpiredPopup(true)
+        return;
+      }
+      
+      let res = check_response_data(response)
+      if (res === true){
+        setSuccessPreview(true)
+        setTitle_prview('La identificación ha sido aceptada exitosamente')
+      }
+      else{
+        similarities(response)
+        setTitle_prview('Los datos obtenidos no coinciden con los previamente registrados en Escolar. \nFavor de utilizar otra identificación u otra foto')
+      }
       setDataPreview(true);
     }
     console.log('response',response);
-    let vig = response.message.vigencia;
-    setExpiredPopup(vig<=2022)
+
   }
 
   async function database_comm(){
@@ -106,11 +160,10 @@ function Home(props) {
         setTempLocation(null)
         return navigate('/')
       }
-    
   }
 
   useEffect(() => {
-    console.log(location)
+    //console.log(location)
     if (logout===true || tempLocation===null ||  
       tempLocation.isLogged === false){
         setFiles([])
@@ -130,7 +183,6 @@ function Home(props) {
       setFiles([])
       setShowText(true)
       setIdType('')
-      //setDataPreview(false)
     }
     if (overlayPresent===true){
       setButtonPopup(false);
@@ -168,22 +220,45 @@ function Home(props) {
       <Popup trigger={dataPreview} setTrigger={setDataPreview} botonOn={true}>
           <div className="div-preview">
             <div className="escolar">
-              <div>
-                <p>Matricula</p><p>{ userData['id'] }</p>
-              </div>
-              <div>
-                <p>Nombre</p><p>{ userData['name'] }</p>
-              </div>
-              <div>
-                <p>Segundo(s) nombre(s)</p><p>{ userData['middle_names'] }</p>
-              </div>
-              <div>
-                <p>Apellido Paterno</p><p>{ userData['last_name_father'] }</p>
-              </div>
-              <div>
-                <p>Apellido Materno</p><p>{ userData['last_name_mother'] }</p>
+            <h3>{ title_preview }</h3>
+            
+            <div>
+              <p>Matricula</p><p>{ userData['id'] }</p>
+            </div>
+              <div className="escolar-preview">
+                <h4>Datos en escolar</h4>
+                <div>
+                  <p>Nombre</p><p>{ userData['name'] }</p>
+                </div>
+                <div>
+                  <p>Segundo(s) nombre(s)</p><p>{ userData['middle_names'] }</p>
+                </div>
+                <div>
+                  <p>Apellido Paterno</p><p>{ userData['last_name_father'] }</p>
+                </div>
+                <div>
+                  <p>Apellido Materno</p><p>{ userData['last_name_mother'] }</p>
+                </div>
               </div>
             </div>
+            {! success_preview
+              ? <div className="modelo-unsuccessful">
+                <h4>Datos reconocidos</h4>
+                  <div>
+                    <p>Nombre</p><p>{ responseData['name'] }</p>
+                  </div>
+                  <div>
+                    <p>Segundo(s) nombre(s)</p><p>{ responseData['middle_names'] }</p>
+                  </div>
+                  <div>
+                    <p>Apellido Paterno</p><p>{ responseData['last_name_father'] }</p>
+                  </div>
+                  <div>
+                    <p>Apellido Materno</p><p>{ responseData['last_name_mother'] }</p>
+                  </div>
+                </div>
+              : null
+            }
           </div>
       </Popup>
 
