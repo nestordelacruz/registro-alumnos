@@ -23,6 +23,8 @@ npm install
 La versión de PostgreSQL utilizadas es **15**
 Para cambiar usuarios y contraseñas, modificar el archivo _.\registro-alumnos\src\database\db.config.js_
 
+- La instancia de la base de datos puede ser recuperada al agregar el script de SQL a PostgreSQL y ejecutarlo, localizado en: _.\registro-alumnos\src\database\db_backup.sql_
+
 ### Puertos requeridos
 - PostgreSQL debe estar configurado en el puerto **5433**
 - La API de comunicación con PostgreSQL estará en **8080**
