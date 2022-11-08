@@ -5,7 +5,7 @@
 -- Dumped from database version 15.0
 -- Dumped by pg_dump version 15.0
 
--- Started on 2022-11-07 11:32:17
+-- Started on 2022-11-07 20:20:30
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -222,6 +222,9 @@ ALTER TABLE ONLY public.tests ALTER COLUMN id SET DEFAULT nextval('public.tests_
 INSERT INTO public.alumnos (name, middle_names, last_name_father, last_name_mother, id) VALUES ('Elian', 'Javier', 'Cruz', 'Esquivel', 't032218');
 INSERT INTO public.alumnos (name, middle_names, last_name_father, last_name_mother, id) VALUES ('Marco', 'Alejandro', 'Velez', 'del Callejo', 't026629');
 INSERT INTO public.alumnos (name, middle_names, last_name_father, last_name_mother, id) VALUES ('Nestor', 'Manuel', 'de la Cruz', 'Escalante', 't031116');
+INSERT INTO public.alumnos (name, middle_names, last_name_father, last_name_mother, id) VALUES ('David', '', 'Espina', 'Lopez', 't032025');
+INSERT INTO public.alumnos (name, middle_names, last_name_father, last_name_mother, id) VALUES ('Marcos', 'Alberto', 'Moroyoqui', 'Olan', 't030934');
+INSERT INTO public.alumnos (name, middle_names, last_name_father, last_name_mother, id) VALUES ('Hector', '', 'Osuna', 'Medrano', 't026950');
 
 
 --
@@ -245,6 +248,12 @@ INSERT INTO public.datos_extraidos_s (id, name, middle_names, last_name_father, 
 INSERT INTO public.datos_extraidos_s (id, name, middle_names, last_name_father, last_name_mother, "timestamp") VALUES (5, 'Elian', 'Javier', 'Cruz', 'Esquivel', '2022-11-07 03:09:45.440903-08');
 INSERT INTO public.datos_extraidos_s (id, name, middle_names, last_name_father, last_name_mother, "timestamp") VALUES (6, 'Elian', 'Javier', 'Cruz', 'Esquivel', '2022-11-07 03:10:19.984309-08');
 INSERT INTO public.datos_extraidos_s (id, name, middle_names, last_name_father, last_name_mother, "timestamp") VALUES (7, 'Elian', 'Javier', 'Cruz', 'Esquivel', '2022-11-07 11:06:28.242815-08');
+INSERT INTO public.datos_extraidos_s (id, name, middle_names, last_name_father, last_name_mother, "timestamp") VALUES (8, 'Elian', 'Javier', 'Cruz', 'Esquivel', '2022-11-07 15:43:19.653366-08');
+INSERT INTO public.datos_extraidos_s (id, name, middle_names, last_name_father, last_name_mother, "timestamp") VALUES (9, 'Elian', 'Javier', 'Cruz', 'Esquivel', '2022-11-07 16:05:21.072394-08');
+INSERT INTO public.datos_extraidos_s (id, name, middle_names, last_name_father, last_name_mother, "timestamp") VALUES (10, 'Elian', 'Javier', 'Cruz', 'Esquivel', '2022-11-07 18:15:24.787262-08');
+INSERT INTO public.datos_extraidos_s (id, name, middle_names, last_name_father, last_name_mother, "timestamp") VALUES (11, 'Elian', 'Javier', 'Cruz', 'Esquivel', '2022-11-07 18:22:59.550606-08');
+INSERT INTO public.datos_extraidos_s (id, name, middle_names, last_name_father, last_name_mother, "timestamp") VALUES (12, 'Elian', 'Javier', 'Cruz', 'Esquivel', '2022-11-07 18:26:29.150976-08');
+INSERT INTO public.datos_extraidos_s (id, name, middle_names, last_name_father, last_name_mother, "timestamp") VALUES (13, 'Elian', 'Javier', 'Cruz', 'Esquivel', '2022-11-07 18:28:40.092896-08');
 
 
 --
@@ -276,7 +285,7 @@ INSERT INTO public.tests (id, name, "timestamp") VALUES (7, 'Elian', '2022-11-07
 -- Name: datos_extraidos_s_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.datos_extraidos_s_id_seq', 7, true);
+SELECT pg_catalog.setval('public.datos_extraidos_s_id_seq', 13, true);
 
 
 --
@@ -333,7 +342,7 @@ ALTER TABLE ONLY public.tests
     ADD CONSTRAINT tests_pkey PRIMARY KEY (id);
 
 
--- Completed on 2022-11-07 11:32:17
+-- Completed on 2022-11-07 20:20:31
 
 --
 -- PostgreSQL database dump complete
