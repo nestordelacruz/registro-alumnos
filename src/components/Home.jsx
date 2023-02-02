@@ -162,7 +162,7 @@ function Home(props) {
     let response = await database_control(location.state.matricula);
     setUserData(response)
     console.log('data comm', response)
-    //setIsRegistered(response.reg_status)
+    setIsRegistered(response.reg_status)
   }
   
   function log_out(){
@@ -170,7 +170,7 @@ function Home(props) {
     if (logout===true ||tempLocation===null ||  
       tempLocation.isLogged === false) {
         setTempLocation(null)
-        
+        return navigate('/')
       }
   }
 
