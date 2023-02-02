@@ -11,6 +11,10 @@ module.exports = (sequelize, Sequelize) => {
       },
       last_name_mother: {
         type: Sequelize.STRING
+      },
+      reg_status: {
+        type: Sequelize.STRING,
+        defaultValue: false
       }
     }, {
       timestamps: false

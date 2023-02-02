@@ -19,7 +19,7 @@ const db = {};
 
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
-
+db.sequelize.sync({ force: false, alter: true })
 db.alumnos = require("./alumnos.model.js")(sequelize, Sequelize);
 db.extraidos = require("./extraidos.model.js")(sequelize, Sequelize);
 db.test = require("./test.model.js")(sequelize, Sequelize);
