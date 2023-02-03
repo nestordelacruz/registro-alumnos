@@ -17,12 +17,13 @@ exports.create = (req, res) => {
     name: req.body.name,
     middle_names: req.body.middle_names,
     last_name_father: req.body.last_name_father,
-    last_name_mother: req.body.last_name_mother
+    last_name_mother: req.body.last_name_mother,
+    img_path: req.body.image_path
   };
 
   Extraidos.create(data_extraida)
     .then(data => {
-      console.log('dentro', data)
+      console.log('dentro de', data)
       res.send(data);
     })
     .catch(err => {
@@ -31,6 +32,23 @@ exports.create = (req, res) => {
           err.message || "Some error occurred while creating the Record."
       });
     }); 
+  
+  Alumnos.update(
+    {reg_status: true},
+    {where: {id: req.body.id}}
+  ).then(data => {
+    console.log('actualizado', data)
+    res.send(data);
+  })
+  .catch(err => {
+    res.status(500).send({
+      message:
+        err.message || "Some error occurred while updating the Record."
+    }).then(e => {
+      console.log(e)
+    });
+  }); 
+    ///
 };
 
 exports.create_test = (req, res) => {
@@ -44,10 +62,15 @@ exports.create_test = (req, res) => {
 
   const data_extraida = {
     name: req.body.name,
+    middle_names: req.body.middle_names,
+    last_name_father: req.body.last_name_father,
+    last_name_mother: req.body.last_name_mother,
+    img_path: req.body.image_path
   };
 
-  Test.create(data_extraida)
+  Extraidos.create(data_extraida)
     .then(data => {
+      console.log('dentro de', data)
       res.send(data);
     })
     .catch(err => {
@@ -56,13 +79,27 @@ exports.create_test = (req, res) => {
           err.message || "Some error occurred while creating the Record."
       });
     }); 
+  
+  Alumnos.update(
+    {reg_status: true},
+    {where: {id: req.body.id}}
+  ).then(data => {
+    console.log('actualizado', data)
+    res.send(data);
+  })
+  .catch(err => {
+    res.status(500).send({
+      message:
+        err.message || "Some error occurred while updating the Record."
+    });
+  }); 
 };
 
 exports.findAll = (req, res) => {
-    console.log(req)
+    //console.log(req.query.title)
     const title = req.query.title;
     var condition = title ? { title: { [Op.iLike]: `%${title}%` } } : null;
-  
+    
     Alumnos.findAll({ where: condition })
       .then(data => {
         res.send(data);

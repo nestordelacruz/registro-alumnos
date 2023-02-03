@@ -5,7 +5,7 @@
 -- Dumped from database version 15.0
 -- Dumped by pg_dump version 15.0
 
--- Started on 2022-11-07 20:20:30
+-- Started on 2022-11-09 20:48:56
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -18,7 +18,6 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
-DROP DATABASE alumnos_registro_ceneval;
 --
 -- TOC entry 3360 (class 1262 OID 16398)
 -- Name: alumnos_registro_ceneval; Type: DATABASE; Schema: -; Owner: postgres
@@ -342,7 +341,7 @@ ALTER TABLE ONLY public.tests
     ADD CONSTRAINT tests_pkey PRIMARY KEY (id);
 
 
--- Completed on 2022-11-07 20:20:31
+-- Completed on 2022-11-09 20:48:57
 
 --
 -- PostgreSQL database dump complete

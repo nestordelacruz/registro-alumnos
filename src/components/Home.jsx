@@ -8,7 +8,7 @@ import sendImage_ from '../functions/sendImage_model';
 import database_control from '../functions/database_controller'
 import get_similarities_ from '../functions/get_similarities'
 import create_record from '../functions/create_record_extracted_data'
-
+import LogIn from './LogIn';
 function Home(props) {
   let navigate = useNavigate();
   const location = useLocation(); 
@@ -31,6 +31,7 @@ function Home(props) {
   const [success_preview, setSuccessPreview] = useState(false);
   const [continue_, setContinue] = useState(false)
   const [responseData, setResponseData] = useState([])
+  const [errors, setErrors] = useState("");
   // need to set timeout
   const [overlayPresent, setOverlayPresent] = useState(false)
 
@@ -41,7 +42,8 @@ function Home(props) {
       'image/jpg' : ['.jpg']
     },
     onDrop: (acceptedFiles) => {
-      if (acceptedFiles.length === 1) {
+      console.log('accepted', acceptedFiles[0].size)
+      if (acceptedFiles.length === 1 && acceptedFiles[0].size <= 33554432 ) {
         acceptedFiles.map((file) => {console.log("cosaa",file)})
         setFiles(
           acceptedFiles.map((file) => Object.assign(file, {
@@ -140,11 +142,11 @@ function Home(props) {
         setTitle_prview('La identificación ha sido aceptada exitosamente')
         setIsRegistered(true);
         const data_ = ((
-          { name, middle_names, last_name_father, last_name_mother }
-        ) => ({ name, middle_names, last_name_father, last_name_mother }))(userData);
+          { id, name, middle_names, last_name_father, last_name_mother }
+        ) => ({ id, name, middle_names, last_name_father, last_name_mother }))(userData);
         
         console.log(data_);
-        let response_post_data = await create_record(data_)
+        let response_post_data = await create_record(data_, response.path )
         console.log('response post', response_post_data)
       }
       else{
@@ -159,6 +161,8 @@ function Home(props) {
   async function database_comm(){
     let response = await database_control(location.state.matricula);
     setUserData(response)
+    console.log('data comm', response)
+    setIsRegistered(response.reg_status)
   }
   
   function log_out(){
@@ -171,24 +175,24 @@ function Home(props) {
   }
 
   useEffect(() => {
-    //console.log(location)
+    console.log('iniciando')
     if (logout===true || tempLocation===null ||  
-      tempLocation.isLogged === false){
+      tempLocation.isLogged === false ){
         setFiles([])
         setShowText(true)
         setIdType('')
         setTempLocation(null)
         setIsRegistered(false)
-
+        
         //console.log(logout, tempLocation)
-      return navigate('/')
+        return navigate('/')
     }
     if (expiredPopup===true){
       setButtonPopup(false)
       setOverlayPresent(false)
       setDataPreview(false)
     }
-    if (buttonPopup===false){
+    if (buttonPopup===false || notAPic){
       setFiles([])
       setShowText(true)
       setIdType('')
@@ -197,14 +201,14 @@ function Home(props) {
       setButtonPopup(false);
     }
     database_comm()
-  }, [buttonPopup, location, navigate, overlayPresent, logout, tempLocation, expiredPopup]);
+  }, [buttonPopup, location, navigate, overlayPresent, logout, tempLocation, expiredPopup, notAPic]);
 
   return (
     <div className='home-background' onLoad={log_out()}>
       <div className='home-innerContent'>
       <div className="greet_n_out">
           <h1>Hola, {userData['name']}</h1>
-          <button className="logout" onClick={() => {setLogOut(true)}}>Salir</button>
+          <button className="logout" onClick={() => {setLogOut(true)}}>Cerrar sesión</button>
         </div>
 
         <UserRegistrationStatus userStatus={isRegistered}></UserRegistrationStatus>
@@ -279,7 +283,7 @@ function Home(props) {
 
         <Popup trigger={notAPic} setTrigger={setNotAPic} botonOn={true}>
             <div className="not-a-pic">
-              Formato de archivo invalido, intentalo de nuevo
+              Formato de archivo invalido o imagen con un tamaño mayor a 32Mb, intentalo de nuevo
             </div>
         </Popup>
         
@@ -291,7 +295,7 @@ function Home(props) {
           <input {...getInputProps()} /> 
           {showText ? 
             isDragActive ?
-              <p>Suelta los archivos aqui ...</p> :
+              <p>Suelta los archivos aquí ...</p> :
               <p>Arrastra o presiona aquí para subir tu archivo</p>
               : <div>{buttonPopup === true &&  images}</div>}
 

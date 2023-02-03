@@ -1,4 +1,6 @@
-export default async function create_record(data){
+export default async function create_record(data, image_path){
+    data.reg_status = true;
+    data.image_path = image_path;
     data = JSON.stringify(data)
     console.log("JSON sent", data)
 

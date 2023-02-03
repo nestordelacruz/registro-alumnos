@@ -8,13 +8,13 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import Input from "@material-ui/core/Input";
 import LogInErrorPopup from './LogInErrorPopup';
-
+import Home from './Home';
 
 
 function LogIn(props) {
     let navigate = useNavigate();
     const [user, setUser] = useState('')
-
+    const [can, setCan] = useState(false)
     const [logInPopup, setLogInPopup] = useState(false);
     const [values, setValues] = React.useState({
         password: "",
@@ -23,13 +23,14 @@ function LogIn(props) {
 
     async function canProcede(){
         const params = {
-            'Username': user,
+            'Username': user.toLowerCase(),
             'Password': values.password
 
           }
           let path = '/home';
           axios.post('https://ws.cetys.mx/Accounts/autenticarLDAP/v1/Alumnos', params)
             .then(response => {
+              console.log(response)
               if (response.data===true){
                 console.log('response', response.data)
                 navigate(path, {state: {
@@ -48,7 +49,7 @@ function LogIn(props) {
     }
 
     function handleUser(event){
-        setUser(event.target.value)
+        setUser(event.target.value.toLowerCase())
     }
 
     /*
@@ -73,13 +74,13 @@ function LogIn(props) {
       };
 
     return (
-        <div className='App'>
+         ! can ? <div className='App'>
             <div className='login-page'>
                 <Logo/>
                 
                 <div className="login-form">
                     <div className='log-user'>
-                        <p>Matricula</p>
+                        <p>Matrícula</p>
                         <Input className='input-password'
                             type={ "text"}
                             onChange={handleUser}
@@ -105,7 +106,7 @@ function LogIn(props) {
                         />
                     </div>
                     <div className='log-user'>
-                        <button onClick={canProcede} className='btn-login' > Log In</button>
+                        <button onClick={canProcede} className='btn-login' > Iniciar sesión</button>
                     </div>
                     <LogInErrorPopup trigger={logInPopup} setTrigger={setLogInPopup}>
                       Matricula y/o contraseña invalida.
@@ -116,7 +117,7 @@ function LogIn(props) {
                 </div>
             </div>
             
-        </div>
+        </div>:<Home/>
     )
 }
 
