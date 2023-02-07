@@ -161,8 +161,8 @@ function Home(props) {
   async function database_comm(){
     let response = await database_control(location.state.matricula);
     setUserData(response)
-    console.log('data comm', response)
-    setIsRegistered(response.reg_status)
+    console.log('data comm', response.reg_status === 'true')
+    setIsRegistered(response.reg_status === 'true')
   }
   
   function log_out(){

@@ -1,0 +1,8 @@
+INSERT INTO public.alumnos (name, middle_names, last_name_father, last_name_mother, id, reg_status) VALUES ('Marco', 'Alejandro', 'Velez', 'del Callejo', 't026629', 'false');
+INSERT INTO public.alumnos (name, middle_names, last_name_father, last_name_mother, id, reg_status) VALUES ('Nestor', 'Manuel', 'de la Cruz', 'Escalante', 't031116', 'false');
+INSERT INTO public.alumnos (name, middle_names, last_name_father, last_name_mother, id, reg_status) VALUES ('David', '', 'Espina', 'Lopez', 't032025', 'false');
+INSERT INTO public.alumnos (name, middle_names, last_name_father, last_name_mother, id, reg_status) VALUES ('Marcos', 'Alberto', 'Moroyoqui', 'Olan', 't030934', 'false');
+INSERT INTO public.alumnos (name, middle_names, last_name_father, last_name_mother, id, reg_status) VALUES ('Hector', '', 'Osuna', 'Medrano', 't026950', 'false');
+INSERT INTO public.alumnos (name, middle_names, last_name_father, last_name_mother, id, reg_status) VALUES ('Elian', 'Javier', 'Cruz', 'Esquivel', 't032218', 'false');
+
+

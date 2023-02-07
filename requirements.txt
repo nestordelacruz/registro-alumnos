@@ -4,3 +4,5 @@ numpy==1.21.4
 opencv_python_headless==4.5.2.52
 Pillow==9.4.0
 starlette==0.17.1
+uuid==1.30
+uvicorn==0.17.5

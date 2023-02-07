@@ -20,8 +20,8 @@ class text_recog:
 
         print((640, int(640*(int(h/r)/int(w/r)))))
         image = cv2.resize(image, (640, int(640*(int(h/r)/int(w/r)))))
-        cv2.imwrite(r'F:\CETYS\p\registro-alumnos\src\Model\{0}.jpg'.format(0), image)
-        result = self.reader.readtext(r'F:\CETYS\p\registro-alumnos\src\Model\0.jpg', decoder='wordbeamsearch', beamWidth=10)
+        cv2.imwrite('./{0}.jpg'.format(0), image)
+        result = self.reader.readtext(r'./0.jpg', decoder='wordbeamsearch', beamWidth=10)
         vigencia = None
         vigencia_pass = None
         for i in result[-2:]:
