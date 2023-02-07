@@ -1,0 +1,9 @@
+INSERT INTO public.tests (id, name) VALUES (1, 'Elian');
+INSERT INTO public.tests (id, name) VALUES (2, 'Elian');
+INSERT INTO public.tests (id, name) VALUES (3, 'Elian');
+INSERT INTO public.tests (id, name) VALUES (4, 'Elian');
+INSERT INTO public.tests (id, name) VALUES (5, 'Elian');
+INSERT INTO public.tests (id, name) VALUES (6, 'Elian');
+INSERT INTO public.tests (id, name) VALUES (7, 'Elian');
+
+
